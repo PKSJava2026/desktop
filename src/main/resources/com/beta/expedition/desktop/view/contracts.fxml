@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beta.expedition.desktop.controller.ContractsController" spacing="14">
+    <Label text="Договоры" styleClass="page-title"/>
+    <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS"/>
+</VBox>

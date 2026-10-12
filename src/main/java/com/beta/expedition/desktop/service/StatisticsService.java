@@ -6,6 +6,7 @@ import com.beta.expedition.desktop.model.OrderDto;
 import com.beta.expedition.desktop.model.OrderStatus;
 import com.beta.expedition.desktop.model.StatItem;
 import com.beta.expedition.desktop.model.request.OrderQuery;
+import com.beta.expedition.desktop.ui.Formats;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +14,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,6 @@ public class StatisticsService {
     public static final int RECENT_DAYS = 30;
 
     private static final String EMPTY = "—";
-    private static final Locale RU = Locale.forLanguageTag("ru");
 
     public record Indicator(String name, String display, Object value) {
     }
@@ -75,16 +74,12 @@ public class StatisticsService {
         BigDecimal sum = values.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal average = sum.divide(BigDecimal.valueOf(values.size()), 2, RoundingMode.HALF_UP);
         return List.of(
-                new Indicator("Минимум " + caption, format(min), min),
-                new Indicator("Максимум " + caption, format(max), max),
-                new Indicator("Среднее значение " + caption, format(average), average));
+                new Indicator("Минимум " + caption, Formats.money(min), min),
+                new Indicator("Максимум " + caption, Formats.money(max), max),
+                new Indicator("Среднее значение " + caption, Formats.money(average), average));
     }
 
     private Indicator count(String name, long value) {
         return new Indicator(name, String.valueOf(value), value);
-    }
-
-    private String format(BigDecimal value) {
-        return String.format(RU, "%,.2f", value).replace(' ', ' ');
     }
 }

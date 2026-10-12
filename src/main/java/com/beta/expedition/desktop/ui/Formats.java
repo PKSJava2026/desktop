@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public final class Formats {
 
     private static final String EMPTY = "—";
+    private static final Locale RU = Locale.forLanguageTag("ru");
     private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter DATE_TIME = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
@@ -25,6 +27,10 @@ public final class Formats {
 
     public static String decimal(BigDecimal value) {
         return value == null ? EMPTY : value.stripTrailingZeros().toPlainString();
+    }
+
+    public static String money(BigDecimal value) {
+        return value == null ? EMPTY : String.format(RU, "%,.2f", value).replace('\u00A0', ' ');
     }
 
     public static String stars(int score, int max) {
