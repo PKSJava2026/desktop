@@ -2,16 +2,13 @@ package com.beta.expedition.desktop.controller;
 
 import com.beta.expedition.desktop.model.UserDto;
 import com.beta.expedition.desktop.ui.AppContext;
+import com.beta.expedition.desktop.ui.Formats;
 import com.beta.expedition.desktop.ui.Navigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class ProfileController {
-
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     @FXML
     private Label nicknameLabel;
@@ -34,7 +31,6 @@ public class ProfileController {
         nicknameLabel.setText(user.nickname());
         emailLabel.setText(user.email());
         roleLabel.setText(user.role().toString());
-        createdLabel.setText(user.createdAt() == null ? "—"
-                : user.createdAt().atZoneSameInstant(ZoneId.systemDefault()).format(DATE_FORMAT));
+        createdLabel.setText(Formats.dateTime(user.createdAt()));
     }
 }

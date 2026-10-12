@@ -11,6 +11,9 @@ import java.util.Objects;
 
 public final class Navigator {
 
+    public record LoadedView<C>(Parent root, C controller) {
+    }
+
     private static final String VIEW_DIR = "/com/beta/expedition/desktop/view/";
     private static final String STYLESHEET = "/com/beta/expedition/desktop/css/style.css";
     private static final String LOGIN_VIEW = VIEW_DIR + "login.fxml";
@@ -44,11 +47,16 @@ public final class Navigator {
     }
 
     public Parent load(String viewPath) {
+        return loadView(viewPath).root();
+    }
+
+    public <C> LoadedView<C> loadView(String viewPath) {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
                 Navigator.class.getResource(viewPath), "Не найден экран " + viewPath));
         loader.setControllerFactory(this::createController);
         try {
-            return loader.load();
+            Parent root = loader.load();
+            return new LoadedView<>(root, loader.getController());
         } catch (IOException e) {
             throw new IllegalStateException("Не удалось загрузить экран " + viewPath, e);
         }
