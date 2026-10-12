@@ -254,6 +254,10 @@
     -fx-text-fill: #1c2430;
 }
 
+.filter-bar {
+    -fx-padding: 0 0 2 0;
+}
+
 .form-box {
     -fx-padding: 8 4 4 4;
 }
