@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beta.expedition.desktop.controller.RatingFormController"
+      spacing="10" prefWidth="400" styleClass="form-box">
+    <Label fx:id="subjectLabel" styleClass="section-title" wrapText="true"/>
+    <Label text="Оценка" styleClass="field-label"/>
+    <ComboBox fx:id="scoreCombo" promptText="Выберите оценку от 1 до 5" maxWidth="Infinity"/>
+    <Label text="Комментарий" styleClass="field-label"/>
+    <TextArea fx:id="commentField" promptText="Необязательно, до 500 символов" prefRowCount="4" wrapText="true"/>
+    <Label fx:id="errorLabel" styleClass="error-text" wrapText="true" minHeight="-Infinity"/>
+</VBox>

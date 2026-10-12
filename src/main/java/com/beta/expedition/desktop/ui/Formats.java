@@ -27,6 +27,10 @@ public final class Formats {
         return value == null ? EMPTY : value.stripTrailingZeros().toPlainString();
     }
 
+    public static String stars(int score, int max) {
+        return "★".repeat(Math.max(0, score)) + "☆".repeat(Math.max(0, max - score));
+    }
+
     public static String text(String value) {
         return value == null || value.isBlank() ? EMPTY : value;
     }
