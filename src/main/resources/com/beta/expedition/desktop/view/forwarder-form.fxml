@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beta.expedition.desktop.controller.ForwarderFormController"
+      spacing="8" prefWidth="380">
+    <Label text="Никнейм" styleClass="field-label"/>
+    <TextField fx:id="nicknameField" promptText="От 3 до 30 символов"/>
+    <Label text="Email" styleClass="field-label"/>
+    <TextField fx:id="emailField" promptText="name@example.com"/>
+    <Label text="Пароль" styleClass="field-label"/>
+    <PasswordField fx:id="passwordField" promptText="Не короче 6 символов"/>
+    <Label text="Подтверждение пароля" styleClass="field-label"/>
+    <PasswordField fx:id="confirmationField" promptText="Повторите пароль"/>
+    <Label fx:id="errorLabel" styleClass="error-text" wrapText="true" minHeight="-Infinity"/>
+</VBox>

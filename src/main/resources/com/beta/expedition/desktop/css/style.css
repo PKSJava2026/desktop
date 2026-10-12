@@ -102,6 +102,35 @@
     -fx-background-color: #e8f0f8;
 }
 
+.button-danger {
+    -fx-background-color: white;
+    -fx-text-fill: #b3261e;
+    -fx-border-color: #b3261e;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: #fbeceb;
+}
+
+.button-danger:disabled {
+    -fx-opacity: 0.5;
+}
+
+.hint {
+    -fx-text-fill: #5f6b7a;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #dde3ea;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
 .button-link {
     -fx-background-color: transparent;
     -fx-text-fill: #1f4e79;

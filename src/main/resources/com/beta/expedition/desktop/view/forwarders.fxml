@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.beta.expedition.desktop.controller.ForwardersController">
+    <VBox styleClass="card" spacing="14">
+        <Label text="Экспедиторы" styleClass="page-title"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button fx:id="addButton" text="Назначить экспедитора" onAction="#onAdd" styleClass="button-primary"/>
+            <Button fx:id="removeButton" text="Удалить" onAction="#onRemove" styleClass="button-danger"/>
+            <Button fx:id="refreshButton" text="Обновить" onAction="#onRefresh" styleClass="button-secondary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
+        </HBox>
+        <TableView fx:id="forwardersTable" VBox.vgrow="ALWAYS">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="nicknameColumn" text="Никнейм"/>
+                <TableColumn fx:id="emailColumn" text="Email"/>
+                <TableColumn fx:id="createdColumn" text="Дата назначения"/>
+            </columns>
+        </TableView>
+    </VBox>
+</StackPane>
