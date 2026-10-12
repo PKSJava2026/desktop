@@ -3,6 +3,7 @@ package com.beta.expedition.desktop.ui;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 
 public final class FormBindings {
 
@@ -16,5 +17,14 @@ public final class FormBindings {
 
     public static void showWhenNotEmpty(Label label) {
         showWhen(label, label.textProperty().isNotEmpty());
+    }
+
+    public static void setPresent(Node node, boolean present) {
+        node.setVisible(present);
+        node.setManaged(present);
+    }
+
+    public static void setPresent(TableColumn<?, ?> column, boolean present) {
+        column.setVisible(present);
     }
 }
