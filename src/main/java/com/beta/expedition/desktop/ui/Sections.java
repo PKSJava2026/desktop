@@ -13,6 +13,7 @@ public final class Sections {
 
     private static final List<Section> ALL = List.of(
             new Section("Заявки", VIEW_DIR + "orders.fxml", EnumSet.of(Role.CUSTOMER, Role.FORWARDER, Role.ADMIN)),
+            new Section("Договоры", VIEW_DIR + "contracts.fxml", EnumSet.allOf(Role.class)),
             new Section("Заявки о сотрудничестве", VIEW_DIR + "cooperation.fxml",
                     EnumSet.of(Role.CARRIER, Role.FORWARDER, Role.ADMIN)),
             new Section("Профиль", VIEW_DIR + "profile.fxml", EnumSet.allOf(Role.class)),

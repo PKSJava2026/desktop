@@ -3,6 +3,7 @@ package com.beta.expedition.desktop.controller;
 import com.beta.expedition.desktop.model.CooperationRequestDto;
 import com.beta.expedition.desktop.model.OrderDto;
 import com.beta.expedition.desktop.model.request.CooperationContractRequest;
+import com.beta.expedition.desktop.service.ContractRules;
 import com.beta.expedition.desktop.ui.AppContext;
 import com.beta.expedition.desktop.ui.FormBindings;
 import com.beta.expedition.desktop.ui.Navigator;
@@ -16,14 +17,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class CooperationContractFormController {
-
-    private static final BigDecimal MIN_PRICE = new BigDecimal("0.01");
-    private static final BigDecimal MAX_PRICE = new BigDecimal("9999999999.99");
-    private static final int TERMS_MAX = 1000;
 
     @FXML
     private Label carrierLabel;
@@ -68,17 +64,10 @@ public class CooperationContractFormController {
     }
 
     public boolean validate() {
-        Validator validator = new Validator()
-                .requiredValue("Заявка на перевозку", orderBox.getValue())
-                .required("Цена", priceField.getText())
-                .number("Цена", priceField.getText())
-                .positive("Цена", priceField.getText())
-                .range("Цена", priceField.getText(), MIN_PRICE, MAX_PRICE)
-                .scale("Цена", priceField.getText(), 2)
-                .length("Условия", termsField.getText(), 0, TERMS_MAX)
-                .notInPast("Дата начала", startPicker.getValue())
-                .notInPast("Дата окончания", endPicker.getValue())
-                .notBefore("Дата окончания", endPicker.getValue(), "Дата начала", startPicker.getValue());
+        Validator validator = new Validator().requiredValue("Заявка на перевозку", orderBox.getValue());
+        ContractRules.price(validator, priceField.getText(), true);
+        ContractRules.terms(validator, termsField.getText());
+        ContractRules.dates(validator, startPicker.getValue(), endPicker.getValue());
         errorLabel.setText(validator.message());
         return validator.isValid();
     }
