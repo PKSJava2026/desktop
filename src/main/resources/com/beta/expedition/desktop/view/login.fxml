@@ -11,14 +11,14 @@
 
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.beta.expedition.desktop.controller.LoginController" styleClass="auth-pane">
-    <VBox styleClass="card" spacing="10" maxWidth="400" maxHeight="-Infinity">
+    <VBox styleClass="card" spacing="8" maxWidth="400" maxHeight="-Infinity">
         <Label text="Вход в систему" styleClass="page-title"/>
         <Label text="Никнейм" styleClass="field-label"/>
         <TextField fx:id="nicknameField" promptText="Введите никнейм"/>
         <Label text="Пароль" styleClass="field-label"/>
         <PasswordField fx:id="passwordField" promptText="Введите пароль"/>
         <Label fx:id="errorLabel" styleClass="error-text" wrapText="true"/>
-        <HBox spacing="12" alignment="CENTER_LEFT">
+        <HBox spacing="16" alignment="CENTER_LEFT">
             <Button fx:id="loginButton" text="Войти" defaultButton="true" onAction="#onLogin"
                     styleClass="button-primary"/>
             <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>

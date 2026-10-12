@@ -25,7 +25,7 @@ public final class Navigator {
 
     public Navigator(Stage stage, AppContext context) {
         this.context = context;
-        this.scene = new Scene(new StackPane(), 960, 640);
+        this.scene = new Scene(new StackPane(), 1200, 720);
         scene.getStylesheets().add(
                 Objects.requireNonNull(Navigator.class.getResource(STYLESHEET)).toExternalForm());
         stage.setTitle("Экспедиторская компания");

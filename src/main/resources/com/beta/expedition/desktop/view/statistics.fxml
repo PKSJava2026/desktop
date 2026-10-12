@@ -4,14 +4,13 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.StatisticsController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.StatisticsController" spacing="16">
     <Label text="Статистика" styleClass="page-title"/>
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
         <Label text="С" styleClass="field-label"/>
@@ -25,32 +24,30 @@
         <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
     </FlowPane>
     <Label fx:id="periodLabel" styleClass="muted-text"/>
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="plain-scroll" VBox.vgrow="ALWAYS">
-        <VBox spacing="16">
-            <VBox styleClass="card" spacing="10">
-                <Label text="Заявки" styleClass="section-title"/>
-                <TableView fx:id="ordersTable" fixedCellSize="28">
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
-                    </columnResizePolicy>
-                    <columns>
-                        <TableColumn fx:id="ordersNameColumn" text="Показатель" prefWidth="420"/>
-                        <TableColumn fx:id="ordersValueColumn" text="Значение" prefWidth="140"/>
-                    </columns>
-                </TableView>
-            </VBox>
-            <VBox styleClass="card" spacing="10">
-                <Label text="Сводка по компании" styleClass="section-title"/>
-                <TableView fx:id="companyTable" fixedCellSize="28">
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
-                    </columnResizePolicy>
-                    <columns>
-                        <TableColumn fx:id="companyNameColumn" text="Показатель" prefWidth="420"/>
-                        <TableColumn fx:id="companyValueColumn" text="Значение" prefWidth="140"/>
-                    </columns>
-                </TableView>
-            </VBox>
+    <VBox spacing="16">
+        <VBox styleClass="card" spacing="8">
+            <Label text="Заявки" styleClass="section-title"/>
+            <TableView fx:id="ordersTable" fixedCellSize="28">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="ordersNameColumn" text="Показатель" prefWidth="420"/>
+                    <TableColumn fx:id="ordersValueColumn" text="Значение" prefWidth="140"/>
+                </columns>
+            </TableView>
         </VBox>
-    </ScrollPane>
+        <VBox styleClass="card" spacing="8">
+            <Label text="Сводка по компании" styleClass="section-title"/>
+            <TableView fx:id="companyTable" fixedCellSize="28">
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+                </columnResizePolicy>
+                <columns>
+                    <TableColumn fx:id="companyNameColumn" text="Показатель" prefWidth="420"/>
+                    <TableColumn fx:id="companyValueColumn" text="Значение" prefWidth="140"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </VBox>
 </VBox>

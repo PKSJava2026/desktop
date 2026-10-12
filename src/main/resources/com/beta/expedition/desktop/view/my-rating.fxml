@@ -10,26 +10,26 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.MyRatingController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.MyRatingController" spacing="16">
     <Label text="Мой рейтинг" styleClass="page-title"/>
     <HBox styleClass="card" spacing="24" alignment="CENTER_LEFT">
-        <VBox spacing="4">
+        <VBox spacing="8">
             <Label text="Средний балл" styleClass="field-label"/>
             <Label fx:id="averageLabel" styleClass="rating-average"/>
         </VBox>
-        <VBox spacing="4">
+        <VBox spacing="8">
             <Label text="Оценка" styleClass="field-label"/>
             <Label fx:id="starsLabel" styleClass="rating-stars"/>
         </VBox>
-        <VBox spacing="4">
+        <VBox spacing="8">
             <Label text="Количество" styleClass="field-label"/>
-            <Label fx:id="countLabel" styleClass="value-label"/>
+            <Label wrapText="true" fx:id="countLabel" styleClass="value-label"/>
         </VBox>
         <Region HBox.hgrow="ALWAYS"/>
         <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
         <Button fx:id="refreshButton" text="Обновить" styleClass="button-secondary" onAction="#onRefresh"/>
     </HBox>
-    <TableView fx:id="ratingsTable" VBox.vgrow="ALWAYS">
+    <TableView minHeight="220" fx:id="ratingsTable" VBox.vgrow="ALWAYS">
         <placeholder>
             <Label text="Вас пока никто не оценил" styleClass="muted-text"/>
         </placeholder>
