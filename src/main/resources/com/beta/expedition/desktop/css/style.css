@@ -192,3 +192,87 @@
     -fx-font-size: 14px;
     -fx-min-width: 360;
 }
+
+.section-title {
+    -fx-text-fill: #1f4e79;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.muted-text {
+    -fx-text-fill: #5f6b7a;
+}
+
+.button-danger {
+    -fx-background-color: white;
+    -fx-text-fill: #b3261e;
+    -fx-border-color: #b3261e;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: #fdecea;
+}
+
+.button-danger:disabled, .button-secondary:disabled {
+    -fx-opacity: 0.5;
+}
+
+.status-badge {
+    -fx-background-color: #e3edf7;
+    -fx-text-fill: #1f4e79;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 2 10 2 10;
+}
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #dde3ea;
+    -fx-border-radius: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #eef2f6;
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #3b4654;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #d7e6f5;
+}
+
+.table-view .table-row-cell:selected .table-cell {
+    -fx-text-fill: #1c2430;
+}
+
+.form-box {
+    -fx-padding: 8 4 4 4;
+}
+
+.text-area {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #c4ccd6;
+}
+
+.text-area:focused {
+    -fx-border-color: #1f4e79;
+}
+
+.text-area .content {
+    -fx-background-radius: 6;
+}
+
+.date-picker {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}
