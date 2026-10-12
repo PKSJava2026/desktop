@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beta.expedition.desktop.controller.CooperationContractFormController"
+      spacing="10" prefWidth="480" styleClass="form-box">
+    <Label text="Перевозчик" styleClass="field-label"/>
+    <Label fx:id="carrierLabel" styleClass="value-label"/>
+    <Label text="Заявка на перевозку" styleClass="field-label"/>
+    <ComboBox fx:id="orderBox" promptText="Выберите заявку" maxWidth="Infinity"/>
+    <Label text="Цена, руб." styleClass="field-label"/>
+    <TextField fx:id="priceField" promptText="Например, 45000.50"/>
+    <Label text="Условия" styleClass="field-label"/>
+    <TextArea fx:id="termsField" promptText="Необязательно" prefRowCount="3" wrapText="true"/>
+    <HBox spacing="16">
+        <VBox spacing="6">
+            <Label text="Дата начала" styleClass="field-label"/>
+            <HBox spacing="6" alignment="CENTER_LEFT">
+                <DatePicker fx:id="startPicker" promptText="Необязательно" prefWidth="170"/>
+                <Button text="×" styleClass="button-link" onAction="#onClearStart"/>
+            </HBox>
+        </VBox>
+        <VBox spacing="6">
+            <Label text="Дата окончания" styleClass="field-label"/>
+            <HBox spacing="6" alignment="CENTER_LEFT">
+                <DatePicker fx:id="endPicker" promptText="Необязательно" prefWidth="170"/>
+                <Button text="×" styleClass="button-link" onAction="#onClearEnd"/>
+            </HBox>
+        </VBox>
+    </HBox>
+    <Label fx:id="errorLabel" styleClass="error-text" wrapText="true"/>
+</VBox>
