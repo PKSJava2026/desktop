@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.beta.expedition.desktop.controller.OrdersController" spacing="14">
+    <Label fx:id="titleLabel" styleClass="page-title"/>
+    <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
+        <Button fx:id="addButton" text="Добавить" styleClass="button-primary" onAction="#onAdd"/>
+        <Button fx:id="editButton" text="Изменить" styleClass="button-secondary" onAction="#onEdit"/>
+        <Button fx:id="cancelButton" text="Отменить заявку" styleClass="button-secondary"
+                onAction="#onCancelOrder"/>
+        <Button fx:id="deleteButton" text="Удалить" styleClass="button-danger" onAction="#onDelete"/>
+        <Button fx:id="statusButton" text="Изменить статус" styleClass="button-primary"
+                onAction="#onChangeStatus"/>
+        <CheckBox fx:id="activeOnlyBox" text="Только актуальные" onAction="#onActiveOnlyChanged"/>
+        <Button text="Обновить" styleClass="button-secondary" onAction="#onRefresh"/>
+        <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
+    </FlowPane>
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
+        <TableView fx:id="ordersTable" HBox.hgrow="ALWAYS">
+            <placeholder>
+                <Label text="Заявок пока нет" styleClass="muted-text"/>
+            </placeholder>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+            </columnResizePolicy>
+            <columns>
+                <TableColumn fx:id="idColumn" text="№" minWidth="50" prefWidth="55"/>
+                <TableColumn fx:id="customerColumn" text="Заказчик" prefWidth="110"/>
+                <TableColumn fx:id="cargoColumn" text="Груз" prefWidth="190"/>
+                <TableColumn fx:id="originColumn" text="Откуда" prefWidth="110"/>
+                <TableColumn fx:id="destinationColumn" text="Куда" prefWidth="110"/>
+                <TableColumn fx:id="weightColumn" text="Вес, кг" prefWidth="80"/>
+                <TableColumn fx:id="volumeColumn" text="Объём, м³" prefWidth="85"/>
+                <TableColumn fx:id="desiredDateColumn" text="Желаемая дата" prefWidth="110"/>
+                <TableColumn fx:id="statusColumn" text="Статус" prefWidth="130"/>
+                <TableColumn fx:id="createdColumn" text="Создана" prefWidth="130"/>
+            </columns>
+        </TableView>
+        <VBox styleClass="card" prefWidth="290" minWidth="250" maxWidth="320" spacing="12">
+            <Label text="Сведения о заявке" styleClass="section-title"/>
+            <Label fx:id="detailsHint" text="Выберите заявку в таблице" styleClass="muted-text" wrapText="true"/>
+            <GridPane fx:id="detailsGrid" hgap="10" vgap="8">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="90" prefWidth="100"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <Label text="Номер" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Статус" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label fx:id="detailsCustomerCaption" text="Заказчик" styleClass="field-label"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsCustomer" styleClass="value-label" wrapText="true"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="Груз" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsCargo" styleClass="value-label" wrapText="true"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label text="Откуда" styleClass="field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsOrigin" styleClass="value-label" wrapText="true"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <Label text="Куда" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsDestination" styleClass="value-label" wrapText="true"
+                       GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label text="Вес" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsWeight" styleClass="value-label" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label text="Объём" styleClass="field-label" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsVolume" styleClass="value-label" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <Label text="Желаемая дата" styleClass="field-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsDesiredDate" styleClass="value-label"
+                       GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <Label text="Создана" styleClass="field-label" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <Label fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+            </GridPane>
+        </VBox>
+    </HBox>
+</VBox>
