@@ -1,30 +1,31 @@
 package com.beta.expedition.desktop;
 
+import com.beta.expedition.desktop.api.Api;
+import com.beta.expedition.desktop.api.ApiException;
+import com.beta.expedition.desktop.api.ApiFactory;
+import com.beta.expedition.desktop.ui.AppContext;
+import com.beta.expedition.desktop.ui.Navigator;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class App extends Application {
 
-    private static final String MAIN_VIEW = "/com/beta/expedition/desktop/view/main.fxml";
-    private static final String STYLESHEET = "/com/beta/expedition/desktop/css/style.css";
-
     @Override
-    public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(App.class.getResource(MAIN_VIEW)));
-        Scene scene = new Scene(root, 960, 640);
-        scene.getStylesheets().add(Objects.requireNonNull(App.class.getResource(STYLESHEET)).toExternalForm());
-
-        stage.setTitle("Экспедиторская компания");
-        stage.setMinWidth(720);
-        stage.setMinHeight(480);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        try {
+            Api api = ApiFactory.create();
+            Navigator navigator = new Navigator(stage, new AppContext(api));
+            navigator.showLogin();
+            stage.show();
+        } catch (ApiException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.setTitle("Экспедиторская компания");
+            alert.setHeaderText("Не удалось запустить приложение");
+            alert.showAndWait();
+            Platform.exit();
+        }
     }
 
     public static void main(String[] args) {

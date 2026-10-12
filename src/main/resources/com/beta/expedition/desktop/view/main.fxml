@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.beta.expedition.desktop.controller.MainController" styleClass="root-pane">
     <top>
-        <HBox styleClass="header">
+        <HBox styleClass="header" spacing="12" alignment="CENTER_LEFT">
             <Label text="Экспедиторская компания" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="userLabel" styleClass="header-user"/>
+            <Button text="Выйти" onAction="#onLogout" styleClass="button-header"/>
         </HBox>
     </top>
+    <left>
+        <VBox fx:id="navBox" styleClass="nav" spacing="6" prefWidth="210"/>
+    </left>
     <center>
-        <StackPane styleClass="content">
-            <Label fx:id="statusLabel" styleClass="hint"/>
-        </StackPane>
+        <StackPane fx:id="contentPane" styleClass="content"/>
     </center>
 </BorderPane>
