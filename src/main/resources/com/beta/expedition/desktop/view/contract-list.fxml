@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.ContractListController" spacing="12">
+      fx:controller="com.beta.expedition.desktop.controller.ContractListController" spacing="16">
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
         <Button fx:id="offerButton" text="Предложить договор" styleClass="button-primary" onAction="#onOffer"/>
         <Button fx:id="acceptButton" text="Подтвердить" styleClass="button-primary" onAction="#onAccept"/>
@@ -24,7 +24,7 @@
         <Label fx:id="countLabel" styleClass="muted-text"/>
     </FlowPane>
     <HBox spacing="16" VBox.vgrow="ALWAYS">
-        <TableView fx:id="contractsTable" HBox.hgrow="ALWAYS">
+        <TableView minHeight="220" fx:id="contractsTable" HBox.hgrow="ALWAYS">
             <placeholder>
                 <Label text="Договоров пока нет" styleClass="muted-text"/>
             </placeholder>
@@ -40,20 +40,20 @@
                 <TableColumn fx:id="statusColumn" text="Статус" minWidth="150" prefWidth="170"/>
             </columns>
         </TableView>
-        <VBox styleClass="card" prefWidth="250" minWidth="220" maxWidth="290" spacing="10">
+        <VBox styleClass="card" prefWidth="250" minWidth="220" maxWidth="290" spacing="8">
             <Label text="Сведения о договоре" styleClass="section-title"/>
             <Label fx:id="detailsHint" text="Выберите договор в таблице" styleClass="muted-text" wrapText="true"/>
-            <GridPane fx:id="detailsGrid" hgap="10" vgap="6">
+            <GridPane fx:id="detailsGrid" hgap="8" vgap="8">
                 <columnConstraints>
                     <ColumnConstraints minWidth="85" prefWidth="95"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
                 </columnConstraints>
                 <Label text="Номер" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 <Label text="Статус" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 <Label text="Заявка" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsOrder" styleClass="value-label" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsOrder" styleClass="value-label" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 <Label fx:id="detailsCounterpartyCaption" styleClass="field-label"
                        GridPane.rowIndex="3" GridPane.columnIndex="0"/>
                 <Label fx:id="detailsCounterparty" styleClass="value-label" wrapText="true"
@@ -62,7 +62,7 @@
                 <Label fx:id="detailsForwarder" styleClass="value-label" wrapText="true"
                        GridPane.rowIndex="4" GridPane.columnIndex="1"/>
                 <Label text="Цена" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsPrice" styleClass="value-label" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsPrice" styleClass="value-label" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
                 <Label text="Условия" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
                 <Label fx:id="detailsTerms" styleClass="value-label" wrapText="true"
                        GridPane.rowIndex="6" GridPane.columnIndex="1"/>
@@ -70,7 +70,7 @@
                 <Label fx:id="detailsPeriod" styleClass="value-label" wrapText="true"
                        GridPane.rowIndex="7" GridPane.columnIndex="1"/>
                 <Label text="Создан" styleClass="field-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
             </GridPane>
         </VBox>
     </HBox>

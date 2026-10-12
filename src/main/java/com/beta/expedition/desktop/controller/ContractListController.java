@@ -22,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -150,11 +149,11 @@ public class ContractListController {
         counterpartyColumn.setText(kind.counterpartyTitle());
         detailsCounterpartyCaption.setText(kind.counterpartyTitle());
         boolean staff = service.isStaff();
-        setPresent(offerButton, staff);
-        setPresent(acceptButton, !staff);
-        setPresent(rejectButton, !staff);
-        setPresent(counterpartyColumn, staff);
-        setPresent(forwarderColumn, !staff);
+        FormBindings.setPresent(offerButton, staff);
+        FormBindings.setPresent(acceptButton, !staff);
+        FormBindings.setPresent(rejectButton, !staff);
+        FormBindings.setPresent(counterpartyColumn, staff);
+        FormBindings.setPresent(forwarderColumn, !staff);
         refreshState();
         reload(null);
     }
@@ -446,14 +445,5 @@ public class ContractListController {
             parts.add("окончание " + Formats.date(request.proposedEndDate()));
         }
         return String.join("; ", parts);
-    }
-
-    private static void setPresent(Node node, boolean present) {
-        node.setVisible(present);
-        node.setManaged(present);
-    }
-
-    private static void setPresent(TableColumn<?, ?> column, boolean present) {
-        column.setVisible(present);
     }
 }

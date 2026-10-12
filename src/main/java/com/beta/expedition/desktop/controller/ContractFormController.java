@@ -13,7 +13,6 @@ import com.beta.expedition.desktop.ui.Navigator;
 import com.beta.expedition.desktop.ui.Validator;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -93,14 +92,14 @@ public class ContractFormController {
         this.candidateOrders = orders;
         counterpartyCaption.setText(kind.counterpartyTitle());
         counterpartyBox.setItems(FXCollections.observableArrayList(counterparties));
-        setPresent(amendHint, false);
+        FormBindings.setPresent(amendHint, false);
         updateOrders(null);
     }
 
     public void prepareAmendment(ContractDto contract) {
         this.amended = contract;
-        setPresent(offerBox, false);
-        setPresent(amendHint, true);
+        FormBindings.setPresent(offerBox, false);
+        FormBindings.setPresent(amendHint, true);
         priceField.setText(contract.price() == null ? "" : contract.price().toPlainString());
         termsField.setText(contract.terms() == null ? "" : contract.terms());
         startPicker.setValue(contract.startDate());
@@ -196,10 +195,5 @@ public class ContractFormController {
     private boolean endChanged() {
         return endPicker.getValue() != null && amended != null
                 && !Objects.equals(endPicker.getValue(), amended.endDate());
-    }
-
-    private static void setPresent(Node node, boolean present) {
-        node.setVisible(present);
-        node.setManaged(present);
     }
 }

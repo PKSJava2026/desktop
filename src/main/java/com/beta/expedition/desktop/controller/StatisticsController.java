@@ -36,7 +36,7 @@ import java.util.List;
 public class StatisticsController {
 
     private static final String SHEET_NAME = "Статистика";
-    private static final int HEADER_HEIGHT = 34;
+    private static final int HEADER_HEIGHT = 44;
 
     @FXML
     private DatePicker fromPicker;
@@ -129,6 +129,7 @@ public class StatisticsController {
     private void fitHeight(TableView<?> table) {
         table.prefHeightProperty().bind(Bindings.size(table.getItems())
                 .multiply(table.getFixedCellSize()).add(HEADER_HEIGHT));
+        table.minHeightProperty().bind(table.prefHeightProperty());
     }
 
     private void export(ExportFormat format) {

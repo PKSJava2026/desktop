@@ -11,8 +11,8 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.beta.expedition.desktop.controller.ContractFormController"
-      spacing="10" prefWidth="480" styleClass="form-box">
-    <VBox fx:id="offerBox" spacing="10">
+      spacing="8" prefWidth="480" styleClass="form-box">
+    <VBox fx:id="offerBox" spacing="8">
         <Label fx:id="counterpartyCaption" styleClass="field-label"/>
         <ComboBox fx:id="counterpartyBox" promptText="Выберите из списка" maxWidth="Infinity"/>
         <Label text="Заявка на перевозку" styleClass="field-label"/>
@@ -25,16 +25,16 @@
     <Label text="Условия" styleClass="field-label"/>
     <TextArea fx:id="termsField" promptText="Необязательно" prefRowCount="3" wrapText="true"/>
     <HBox spacing="16">
-        <VBox spacing="6">
+        <VBox spacing="8">
             <Label text="Дата начала" styleClass="field-label"/>
-            <HBox spacing="6" alignment="CENTER_LEFT">
+            <HBox spacing="8" alignment="CENTER_LEFT">
                 <DatePicker fx:id="startPicker" promptText="Необязательно" prefWidth="170"/>
                 <Button text="×" styleClass="button-link" onAction="#onClearStart"/>
             </HBox>
         </VBox>
-        <VBox spacing="6">
+        <VBox spacing="8">
             <Label text="Дата окончания" styleClass="field-label"/>
-            <HBox spacing="6" alignment="CENTER_LEFT">
+            <HBox spacing="8" alignment="CENTER_LEFT">
                 <DatePicker fx:id="endPicker" promptText="Необязательно" prefWidth="170"/>
                 <Button text="×" styleClass="button-link" onAction="#onClearEnd"/>
             </HBox>

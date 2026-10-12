@@ -1,5 +1,6 @@
 package com.beta.expedition.desktop.controller;
 
+import com.beta.expedition.desktop.export.ExportFormat;
 import com.beta.expedition.desktop.model.OrderDto;
 import com.beta.expedition.desktop.model.OrderSort;
 import com.beta.expedition.desktop.model.OrderStatus;
@@ -9,10 +10,12 @@ import com.beta.expedition.desktop.service.OrderService;
 import com.beta.expedition.desktop.ui.AppContext;
 import com.beta.expedition.desktop.ui.Background;
 import com.beta.expedition.desktop.ui.Dialogs;
+import com.beta.expedition.desktop.ui.ExportActions;
 import com.beta.expedition.desktop.ui.FormBindings;
 import com.beta.expedition.desktop.ui.FormDialog;
 import com.beta.expedition.desktop.ui.Formats;
 import com.beta.expedition.desktop.ui.Navigator;
+import com.beta.expedition.desktop.ui.Tables;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -23,7 +26,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -31,7 +33,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -44,7 +45,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 public class OrdersController {
 
@@ -64,6 +64,10 @@ public class OrdersController {
     private Button deleteButton;
     @FXML
     private Button statusButton;
+    @FXML
+    private Button exportCsvButton;
+    @FXML
+    private Button exportXlsxButton;
     @FXML
     private ProgressIndicator busyIndicator;
     @FXML
@@ -148,17 +152,19 @@ public class OrdersController {
     private void initialize() {
         boolean customer = orderService.isCustomer();
         titleLabel.setText(customer ? "Мои заявки" : "Заявки на перевозку");
-        setPresent(addButton, customer);
-        setPresent(editButton, customer);
-        setPresent(cancelButton, customer);
-        setPresent(deleteButton, customer);
-        setPresent(statusButton, !customer);
-        setPresent(activeOnlyBox, !customer);
-        setPresent(customerColumn, !customer);
-        setPresent(detailsCustomerCaption, !customer);
-        setPresent(detailsCustomer, !customer);
+        FormBindings.setPresent(addButton, customer);
+        FormBindings.setPresent(editButton, customer);
+        FormBindings.setPresent(cancelButton, customer);
+        FormBindings.setPresent(deleteButton, customer);
+        FormBindings.setPresent(statusButton, !customer);
+        FormBindings.setPresent(activeOnlyBox, !customer);
+        FormBindings.setPresent(customerColumn, !customer);
+        FormBindings.setPresent(detailsCustomerCaption, !customer);
+        FormBindings.setPresent(detailsCustomer, !customer);
 
         FormBindings.showWhen(busyIndicator, busy);
+        exportCsvButton.disableProperty().bind(busy.or(Bindings.isEmpty(sorted)));
+        exportXlsxButton.disableProperty().bind(busy.or(Bindings.isEmpty(sorted)));
         configureColumns();
         sorted.comparatorProperty().bind(ordersTable.comparatorProperty());
         ordersTable.setItems(sorted);
@@ -274,6 +280,21 @@ public class OrdersController {
     }
 
     @FXML
+    private void onExportCsv() {
+        export(ExportFormat.CSV);
+    }
+
+    @FXML
+    private void onExportXlsx() {
+        export(ExportFormat.XLSX);
+    }
+
+    private void export(ExportFormat format) {
+        ExportActions.export(exportCsvButton.getScene().getWindow(), format, "orders",
+                () -> orderService.exportTable(List.copyOf(sorted)), busy);
+    }
+
+    @FXML
     private void onActiveOnlyChanged() {
         reload(null);
     }
@@ -338,10 +359,10 @@ public class OrdersController {
         statusColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().status()));
         createdColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().createdAt()));
 
-        formatted(weightColumn, Formats::decimal);
-        formatted(volumeColumn, Formats::decimal);
-        formatted(desiredDateColumn, Formats::date);
-        formatted(createdColumn, Formats::dateTime);
+        Tables.formatted(weightColumn, Formats::decimal);
+        Tables.formatted(volumeColumn, Formats::decimal);
+        Tables.formatted(desiredDateColumn, Formats::date);
+        Tables.formatted(createdColumn, Formats::dateTime);
         weightColumn.setComparator((first, second) -> {
             boolean blankLast = weightColumn.getSortType() == TableColumn.SortType.ASCENDING;
             if (first == null || second == null) {
@@ -466,24 +487,5 @@ public class OrdersController {
             return OrderSort.WEIGHT;
         }
         return null;
-    }
-
-    private <T> void formatted(TableColumn<OrderDto, T> column, Function<T, String> formatter) {
-        column.setCellFactory(ignored -> new TableCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? null : formatter.apply(item));
-            }
-        });
-    }
-
-    private void setPresent(Node node, boolean present) {
-        node.setVisible(present);
-        node.setManaged(present);
-    }
-
-    private void setPresent(TableColumn<?, ?> column, boolean present) {
-        column.setVisible(present);
     }
 }

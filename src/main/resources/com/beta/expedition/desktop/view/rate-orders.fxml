@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.RateOrdersController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.RateOrdersController" spacing="16">
     <Label fx:id="titleLabel" styleClass="page-title"/>
     <Label fx:id="hintLabel" styleClass="muted-text" wrapText="true"/>
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
@@ -17,7 +17,7 @@
         <Button fx:id="refreshButton" text="Обновить" styleClass="button-secondary" onAction="#onRefresh"/>
         <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
     </FlowPane>
-    <TableView fx:id="ordersTable" VBox.vgrow="ALWAYS">
+    <TableView minHeight="220" fx:id="ordersTable" VBox.vgrow="ALWAYS">
         <placeholder>
             <Label text="Нет доставленных заявок, ожидающих оценки" styleClass="muted-text"/>
         </placeholder>

@@ -12,9 +12,9 @@
 
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.beta.expedition.desktop.controller.DatabaseTablesController">
-    <VBox styleClass="card" spacing="14">
+    <VBox spacing="16">
         <Label text="Таблицы базы данных" styleClass="page-title"/>
-        <HBox spacing="10" alignment="CENTER_LEFT">
+        <HBox spacing="8" alignment="CENTER_LEFT">
             <Label text="Таблица" styleClass="field-label"/>
             <ComboBox fx:id="tableCombo" prefWidth="260"/>
             <Label fx:id="countLabel" styleClass="hint"/>
@@ -23,6 +23,6 @@
             <Button fx:id="xlsxButton" text="Экспорт в Excel" styleClass="button-secondary" onAction="#onExportXlsx"/>
             <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
         </HBox>
-        <TableView fx:id="dataTable" VBox.vgrow="ALWAYS"/>
+        <TableView minHeight="220" fx:id="dataTable" VBox.vgrow="ALWAYS"/>
     </VBox>
 </StackPane>

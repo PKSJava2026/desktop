@@ -1,5 +1,6 @@
 package com.beta.expedition.desktop.ui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,6 +34,7 @@ public final class FormDialog {
         confirmButton.addEventFilter(ActionEvent.ACTION, event -> {
             if (!isValid.getAsBoolean()) {
                 event.consume();
+                Platform.runLater(() -> pane.getScene().getWindow().sizeToScene());
             }
         });
         dialog.setResultConverter(button -> button == confirm ? result.get() : null);

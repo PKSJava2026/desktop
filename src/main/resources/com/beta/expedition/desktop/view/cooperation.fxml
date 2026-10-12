@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.CooperationController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.CooperationController" spacing="16">
     <Label fx:id="titleLabel" styleClass="page-title"/>
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
         <Button fx:id="createButton" text="Создать заявку" styleClass="button-primary" onAction="#onCreate"/>
@@ -23,7 +23,7 @@
         <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
     </FlowPane>
     <HBox spacing="16" VBox.vgrow="ALWAYS">
-        <TableView fx:id="requestsTable" HBox.hgrow="ALWAYS">
+        <TableView minHeight="220" fx:id="requestsTable" HBox.hgrow="ALWAYS">
             <placeholder>
                 <Label text="Заявок о сотрудничестве нет" styleClass="muted-text"/>
             </placeholder>
@@ -39,18 +39,18 @@
                 <TableColumn fx:id="createdColumn" text="Создана" prefWidth="130"/>
             </columns>
         </TableView>
-        <VBox styleClass="card" prefWidth="290" minWidth="250" maxWidth="320" spacing="12">
+        <VBox styleClass="card" prefWidth="270" minWidth="240" maxWidth="300" spacing="16">
             <Label text="Сведения о заявке" styleClass="section-title"/>
             <Label fx:id="detailsHint" text="Выберите заявку в таблице" styleClass="muted-text" wrapText="true"/>
-            <GridPane fx:id="detailsGrid" hgap="10" vgap="8">
+            <GridPane fx:id="detailsGrid" hgap="8" vgap="8">
                 <columnConstraints>
                     <ColumnConstraints minWidth="90" prefWidth="100"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
                 </columnConstraints>
                 <Label text="Номер" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 <Label text="Статус" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 <Label fx:id="detailsCarrierCaption" text="Перевозчик" styleClass="field-label"
                        GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <Label fx:id="detailsCarrier" styleClass="value-label" wrapText="true"
@@ -62,7 +62,7 @@
                 <Label fx:id="detailsDescription" styleClass="value-label" wrapText="true"
                        GridPane.rowIndex="4" GridPane.columnIndex="1"/>
                 <Label text="Создана" styleClass="field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
             </GridPane>
         </VBox>
     </HBox>

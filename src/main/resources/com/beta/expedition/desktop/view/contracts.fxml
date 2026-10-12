@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.ContractsController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.ContractsController" spacing="16">
     <Label text="Договоры" styleClass="page-title"/>
     <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS"/>
 </VBox>

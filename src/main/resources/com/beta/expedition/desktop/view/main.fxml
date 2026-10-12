@@ -4,22 +4,30 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.beta.expedition.desktop.controller.MainController" styleClass="root-pane">
     <top>
-        <HBox styleClass="header" spacing="12" alignment="CENTER_LEFT">
+        <HBox styleClass="header" spacing="16" alignment="CENTER_LEFT">
             <Label text="Экспедиторская компания" styleClass="title"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="userLabel" styleClass="header-user"/>
-            <Button text="Выйти" onAction="#onLogout" styleClass="button-header"/>
         </HBox>
     </top>
     <left>
-        <VBox fx:id="navBox" styleClass="nav" spacing="6" prefWidth="210"/>
+        <VBox styleClass="nav" spacing="16" prefWidth="200">
+            <VBox fx:id="navBox" spacing="8" VBox.vgrow="ALWAYS"/>
+            <VBox spacing="8">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label fx:id="avatarLabel" styleClass="avatar"/>
+                    <VBox alignment="CENTER_LEFT">
+                        <Label fx:id="userNameLabel" styleClass="user-name"/>
+                        <Label fx:id="userRoleLabel" styleClass="user-role"/>
+                    </VBox>
+                </HBox>
+                <Button text="Выйти" onAction="#onLogout" styleClass="button-header" maxWidth="Infinity"/>
+            </VBox>
+        </VBox>
     </left>
     <center>
         <StackPane fx:id="contentPane" styleClass="content"/>

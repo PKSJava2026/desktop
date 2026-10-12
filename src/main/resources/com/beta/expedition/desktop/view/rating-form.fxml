@@ -7,7 +7,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.beta.expedition.desktop.controller.RatingFormController"
-      spacing="10" prefWidth="400" styleClass="form-box">
+      spacing="8" prefWidth="400" styleClass="form-box">
     <Label fx:id="subjectLabel" styleClass="section-title" wrapText="true"/>
     <Label text="Оценка" styleClass="field-label"/>
     <ComboBox fx:id="scoreCombo" promptText="Выберите оценку от 1 до 5" maxWidth="Infinity"/>

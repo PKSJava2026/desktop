@@ -13,6 +13,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.StackPane;
@@ -21,7 +22,11 @@ import javafx.scene.layout.VBox;
 public class MainController {
 
     @FXML
-    private Label userLabel;
+    private Label avatarLabel;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private Label userRoleLabel;
     @FXML
     private VBox navBox;
     @FXML
@@ -41,7 +46,9 @@ public class MainController {
     @FXML
     private void initialize() {
         UserDto user = context.session().user();
-        userLabel.setText(user.nickname() + " · " + user.role());
+        avatarLabel.setText(user.nickname().substring(0, 1).toUpperCase());
+        userNameLabel.setText(user.nickname());
+        userRoleLabel.setText(user.role().toString());
 
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((observable, previous, current) -> {
@@ -80,7 +87,11 @@ public class MainController {
 
     private void showSection(Section section) {
         refreshUnreadCounter();
-        contentPane.getChildren().setAll(navigator.load(section.viewPath()));
+        ScrollPane scroll = new ScrollPane(navigator.load(section.viewPath()));
+        scroll.setFitToWidth(true);
+        scroll.setFitToHeight(true);
+        scroll.getStyleClass().add("plain-scroll");
+        contentPane.getChildren().setAll(scroll);
     }
 
     private void bindUnreadCounter(ToggleButton button, String title) {

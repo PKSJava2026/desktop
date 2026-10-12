@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.beta.expedition.desktop.controller.OrdersController" spacing="14">
+      fx:controller="com.beta.expedition.desktop.controller.OrdersController" spacing="16">
     <Label fx:id="titleLabel" styleClass="page-title"/>
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT">
         <Button fx:id="addButton" text="Добавить" styleClass="button-primary" onAction="#onAdd"/>
@@ -30,55 +30,60 @@
                 onAction="#onChangeStatus"/>
         <CheckBox fx:id="activeOnlyBox" text="Только актуальные" onAction="#onActiveOnlyChanged"/>
         <Button text="Обновить" styleClass="button-secondary" onAction="#onRefresh"/>
+        <Button fx:id="exportCsvButton" text="Экспорт CSV" styleClass="button-secondary" onAction="#onExportCsv"/>
+        <Button fx:id="exportXlsxButton" text="Экспорт Excel" styleClass="button-secondary"
+                onAction="#onExportXlsx"/>
         <ProgressIndicator fx:id="busyIndicator" prefWidth="22" prefHeight="22"/>
     </FlowPane>
     <FlowPane hgap="8" vgap="8" alignment="CENTER_LEFT" styleClass="filter-bar">
         <TextField fx:id="searchField" promptText="Поиск: груз, откуда, куда" prefWidth="260"/>
         <ComboBox fx:id="statusFilterBox" promptText="Все статусы" prefWidth="190"/>
-        <Label text="Создана с" styleClass="field-label"/>
-        <DatePicker fx:id="fromPicker" promptText="дата" prefWidth="140"/>
-        <Button text="×" styleClass="button-link" onAction="#onClearFrom"/>
-        <Label text="по" styleClass="field-label"/>
-        <DatePicker fx:id="toPicker" promptText="дата" prefWidth="140"/>
-        <Button text="×" styleClass="button-link" onAction="#onClearTo"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Создана с" styleClass="field-label"/>
+            <DatePicker fx:id="fromPicker" promptText="дата" prefWidth="150"/>
+            <Button text="×" styleClass="button-link" onAction="#onClearFrom"/>
+            <Label text="по" styleClass="field-label"/>
+            <DatePicker fx:id="toPicker" promptText="дата" prefWidth="150"/>
+            <Button text="×" styleClass="button-link" onAction="#onClearTo"/>
+        </HBox>
         <ComboBox fx:id="sortBox" promptText="Сортировка" prefWidth="190"/>
         <ToggleButton fx:id="directionButton" text="По возрастанию" styleClass="button-secondary"/>
         <Button text="Сбросить" styleClass="button-secondary" onAction="#onResetFilters"/>
     </FlowPane>
     <Label fx:id="filterErrorLabel" styleClass="error-text" wrapText="true"/>
     <HBox spacing="16" VBox.vgrow="ALWAYS">
-        <TableView fx:id="ordersTable" HBox.hgrow="ALWAYS">
+        <TableView minHeight="220" fx:id="ordersTable" HBox.hgrow="ALWAYS">
             <placeholder>
                 <Label text="Заявок пока нет" styleClass="muted-text"/>
             </placeholder>
             <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
+                <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
             </columnResizePolicy>
             <columns>
-                <TableColumn fx:id="idColumn" text="№" minWidth="50" prefWidth="55"/>
-                <TableColumn fx:id="customerColumn" text="Заказчик" prefWidth="110"/>
-                <TableColumn fx:id="cargoColumn" text="Груз" prefWidth="190"/>
-                <TableColumn fx:id="originColumn" text="Откуда" prefWidth="110"/>
-                <TableColumn fx:id="destinationColumn" text="Куда" prefWidth="110"/>
-                <TableColumn fx:id="weightColumn" text="Вес, кг" prefWidth="80"/>
-                <TableColumn fx:id="volumeColumn" text="Объём, м³" prefWidth="85"/>
-                <TableColumn fx:id="desiredDateColumn" text="Желаемая дата" prefWidth="110"/>
-                <TableColumn fx:id="statusColumn" text="Статус" prefWidth="130"/>
-                <TableColumn fx:id="createdColumn" text="Создана" prefWidth="130"/>
+                <TableColumn fx:id="idColumn" text="№" prefWidth="64"/>
+                <TableColumn fx:id="customerColumn" text="Заказчик" prefWidth="130"/>
+                <TableColumn fx:id="cargoColumn" text="Груз" prefWidth="240"/>
+                <TableColumn fx:id="originColumn" text="Откуда" prefWidth="140"/>
+                <TableColumn fx:id="destinationColumn" text="Куда" prefWidth="140"/>
+                <TableColumn fx:id="weightColumn" text="Вес, кг" prefWidth="96"/>
+                <TableColumn fx:id="volumeColumn" text="Объём, м³" prefWidth="104"/>
+                <TableColumn fx:id="desiredDateColumn" text="Желаемая дата" prefWidth="140"/>
+                <TableColumn fx:id="statusColumn" text="Статус" prefWidth="150"/>
+                <TableColumn fx:id="createdColumn" text="Создана" prefWidth="150"/>
             </columns>
         </TableView>
-        <VBox styleClass="card" prefWidth="290" minWidth="250" maxWidth="320" spacing="12">
+        <VBox styleClass="card" prefWidth="270" minWidth="240" maxWidth="300" spacing="16">
             <Label text="Сведения о заявке" styleClass="section-title"/>
             <Label fx:id="detailsHint" text="Выберите заявку в таблице" styleClass="muted-text" wrapText="true"/>
-            <GridPane fx:id="detailsGrid" hgap="10" vgap="8">
+            <GridPane fx:id="detailsGrid" hgap="8" vgap="8">
                 <columnConstraints>
                     <ColumnConstraints minWidth="90" prefWidth="100"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
                 </columnConstraints>
                 <Label text="Номер" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsNumber" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 <Label text="Статус" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsStatus" styleClass="status-badge" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
                 <Label fx:id="detailsCustomerCaption" text="Заказчик" styleClass="field-label"
                        GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <Label fx:id="detailsCustomer" styleClass="value-label" wrapText="true"
@@ -93,14 +98,14 @@
                 <Label fx:id="detailsDestination" styleClass="value-label" wrapText="true"
                        GridPane.rowIndex="5" GridPane.columnIndex="1"/>
                 <Label text="Вес" styleClass="field-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsWeight" styleClass="value-label" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsWeight" styleClass="value-label" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
                 <Label text="Объём" styleClass="field-label" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsVolume" styleClass="value-label" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsVolume" styleClass="value-label" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
                 <Label text="Желаемая дата" styleClass="field-label" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsDesiredDate" styleClass="value-label"
+                <Label wrapText="true" fx:id="detailsDesiredDate" styleClass="value-label"
                        GridPane.rowIndex="8" GridPane.columnIndex="1"/>
                 <Label text="Создана" styleClass="field-label" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
-                <Label fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                <Label wrapText="true" fx:id="detailsCreated" styleClass="value-label" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
             </GridPane>
         </VBox>
     </HBox>
