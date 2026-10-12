@@ -1,6 +1,7 @@
 package com.beta.expedition.desktop.ui;
 
 import com.beta.expedition.desktop.api.ApiException;
+import com.beta.expedition.desktop.export.ExportException;
 import com.beta.expedition.desktop.service.ValidationException;
 import javafx.beans.property.BooleanProperty;
 import javafx.concurrent.Task;
@@ -44,7 +45,8 @@ public final class Background {
     }
 
     private static String messageOf(Throwable error) {
-        if (error instanceof ApiException || error instanceof ValidationException) {
+        if (error instanceof ApiException || error instanceof ValidationException
+                || error instanceof ExportException) {
             return error.getMessage();
         }
         LOGGER.log(System.Logger.Level.ERROR, "Необработанная ошибка вызова", error);

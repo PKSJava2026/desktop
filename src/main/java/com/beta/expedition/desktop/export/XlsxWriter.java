@@ -1,6 +1,5 @@
-package com.beta.expedition.desktop.api.mock;
+package com.beta.expedition.desktop.export;
 
-import com.beta.expedition.desktop.api.ApiException;
 import com.beta.expedition.desktop.model.TableDto;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,18 +9,20 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-final class MockXlsxWriter {
+public final class XlsxWriter {
 
     private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
     private static final String MAIN_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
     private static final String REL_NS = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
     private static final String PKG_REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships";
     private static final int MAX_SHEET_NAME = 31;
+    private static final int MIN_COLUMN_WIDTH = 10;
+    private static final int MAX_COLUMN_WIDTH = 60;
 
-    private MockXlsxWriter() {
+    private XlsxWriter() {
     }
 
-    static byte[] write(List<TableDto> sheets) {
+    public static byte[] write(List<TableDto> sheets) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         try (ZipOutputStream zip = new ZipOutputStream(bytes, StandardCharsets.UTF_8)) {
             put(zip, "[Content_Types].xml", contentTypes(sheets.size()));
@@ -33,7 +34,7 @@ final class MockXlsxWriter {
                 put(zip, "xl/worksheets/sheet" + (i + 1) + ".xml", sheet(sheets.get(i)));
             }
         } catch (IOException e) {
-            throw new ApiException("Не удалось сформировать файл Excel", e);
+            throw new ExportException("Не удалось сформировать файл Excel", e);
         }
         return bytes.toByteArray();
     }
@@ -105,13 +106,36 @@ final class MockXlsxWriter {
 
     private static String sheet(TableDto table) {
         StringBuilder xml = new StringBuilder(XML_HEADER)
-                .append("<worksheet xmlns=\"").append(MAIN_NS).append("\"><sheetData>");
+                .append("<worksheet xmlns=\"").append(MAIN_NS).append("\">");
+        appendColumnWidths(xml, table);
+        xml.append("<sheetData>");
         appendRow(xml, 1, table.columns(), true);
         int rowNumber = 2;
         for (List<Object> row : table.rows()) {
             appendRow(xml, rowNumber++, row, false);
         }
         return xml.append("</sheetData></worksheet>").toString();
+    }
+
+    private static void appendColumnWidths(StringBuilder xml, TableDto table) {
+        int count = table.columns().size();
+        if (count == 0) {
+            return;
+        }
+        xml.append("<cols>");
+        for (int i = 0; i < count; i++) {
+            int longest = table.columns().get(i).length();
+            for (List<Object> row : table.rows()) {
+                Object value = i < row.size() ? row.get(i) : null;
+                if (value != null) {
+                    longest = Math.max(longest, value.toString().length());
+                }
+            }
+            int width = Math.min(MAX_COLUMN_WIDTH, Math.max(MIN_COLUMN_WIDTH, longest + 2));
+            xml.append("<col min=\"").append(i + 1).append("\" max=\"").append(i + 1).append("\" width=\"")
+                    .append(width).append("\" customWidth=\"1\"/>");
+        }
+        xml.append("</cols>");
     }
 
     private static void appendRow(StringBuilder xml, int rowNumber, List<?> values, boolean header) {

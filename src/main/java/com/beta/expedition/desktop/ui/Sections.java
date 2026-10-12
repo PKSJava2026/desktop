@@ -21,6 +21,7 @@ public final class Sections {
                     EnumSet.of(Role.CUSTOMER, Role.FORWARDER, Role.ADMIN)),
             new Section("Мой рейтинг", VIEW_DIR + "my-rating.fxml",
                     EnumSet.of(Role.FORWARDER, Role.CARRIER, Role.ADMIN)),
+            new Section("Статистика", VIEW_DIR + "statistics.fxml", EnumSet.of(Role.FORWARDER, Role.ADMIN)),
             new Section("Экспедиторы", VIEW_DIR + "forwarders.fxml", EnumSet.of(Role.ADMIN)),
             new Section("Таблицы БД", VIEW_DIR + "database-tables.fxml", EnumSet.of(Role.FORWARDER, Role.ADMIN))
     );

@@ -1,6 +1,8 @@
 package com.beta.expedition.desktop.api.mock;
 
 import com.beta.expedition.desktop.api.ReportApi;
+import com.beta.expedition.desktop.export.CsvWriter;
+import com.beta.expedition.desktop.export.XlsxWriter;
 import com.beta.expedition.desktop.model.ContractDto;
 import com.beta.expedition.desktop.model.ContractKind;
 import com.beta.expedition.desktop.model.ContractStatus;
@@ -70,15 +72,20 @@ final class MockReportApi implements ReportApi {
         List<TableDto> sheets = new ArrayList<>();
         sheets.add(statisticsTable());
         tables.values().forEach(table -> sheets.add(table.get()));
-        return MockXlsxWriter.write(sheets);
+        return XlsxWriter.write(sheets);
     }
 
     @Override
     public byte[] exportCsv() {
         session.requireStaff();
         StringBuilder csv = new StringBuilder(BOM);
-        appendCsv(csv, statisticsTable());
-        tables.values().forEach(table -> appendCsv(csv.append("\r\n"), table.get()));
+        csv.append(statisticsTable().name()).append("\r\n");
+        CsvWriter.appendRows(csv, statisticsTable());
+        tables.values().forEach(table -> {
+            TableDto data = table.get();
+            csv.append("\r\n").append(data.name()).append("\r\n");
+            CsvWriter.appendRows(csv, data);
+        });
         return csv.toString().getBytes(StandardCharsets.UTF_8);
     }
 
@@ -201,23 +208,5 @@ final class MockReportApi implements ReportApi {
             row.add(text ? value.toString() : value);
         }
         return row;
-    }
-
-    private static void appendCsv(StringBuilder csv, TableDto table) {
-        csv.append(table.name()).append("\r\n");
-        csv.append(line(table.columns())).append("\r\n");
-        table.rows().forEach(row -> csv.append(line(row)).append("\r\n"));
-    }
-
-    private static String line(List<?> values) {
-        return values.stream().map(MockReportApi::escape).collect(Collectors.joining(";"));
-    }
-
-    private static String escape(Object value) {
-        String text = value == null ? "" : value.toString();
-        if (text.contains(";") || text.contains("\"") || text.contains("\n") || text.contains("\r")) {
-            return "\"" + text.replace("\"", "\"\"") + "\"";
-        }
-        return text;
     }
 }
