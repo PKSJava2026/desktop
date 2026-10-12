@@ -1,0 +1,25 @@
+.root-pane {
+    -fx-background-color: #f4f6f8;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.header {
+    -fx-background-color: #1f4e79;
+    -fx-padding: 14 20 14 20;
+    -fx-alignment: center-left;
+}
+
+.title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.content {
+    -fx-padding: 20;
+}
+
+.hint {
+    -fx-text-fill: #5f6b7a;
+}

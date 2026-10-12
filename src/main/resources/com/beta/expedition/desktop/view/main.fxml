@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.beta.expedition.desktop.controller.MainController" styleClass="root-pane">
+    <top>
+        <HBox styleClass="header">
+            <Label text="Экспедиторская компания" styleClass="title"/>
+        </HBox>
+    </top>
+    <center>
+        <StackPane styleClass="content">
+            <Label fx:id="statusLabel" styleClass="hint"/>
+        </StackPane>
+    </center>
+</BorderPane>
