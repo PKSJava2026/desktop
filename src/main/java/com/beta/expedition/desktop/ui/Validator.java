@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public final class Validator {
 
@@ -44,6 +45,13 @@ public final class Validator {
             errors.add("Поле «" + field + "»: введите не менее " + min + " символов.");
         } else if (length > max) {
             errors.add("Поле «" + field + "»: сократите текст до " + max + " символов.");
+        }
+        return this;
+    }
+
+    public Validator matches(String field, String value, Pattern pattern, String hint) {
+        if (value != null && !value.isBlank() && !pattern.matcher(value.trim()).matches()) {
+            errors.add("Поле «" + field + "»: " + hint);
         }
         return this;
     }
