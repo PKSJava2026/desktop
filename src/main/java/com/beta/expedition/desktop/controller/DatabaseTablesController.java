@@ -1,18 +1,23 @@
 package com.beta.expedition.desktop.controller;
 
+import com.beta.expedition.desktop.export.ExportFormat;
 import com.beta.expedition.desktop.model.TableDto;
 import com.beta.expedition.desktop.service.TablesService;
 import com.beta.expedition.desktop.ui.AppContext;
 import com.beta.expedition.desktop.ui.Background;
 import com.beta.expedition.desktop.ui.Dialogs;
+import com.beta.expedition.desktop.ui.ExportActions;
 import com.beta.expedition.desktop.ui.FormBindings;
 import com.beta.expedition.desktop.ui.Navigator;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -31,10 +36,15 @@ public class DatabaseTablesController {
     private Label countLabel;
     @FXML
     private ProgressIndicator busyIndicator;
+    @FXML
+    private Button csvButton;
+    @FXML
+    private Button xlsxButton;
 
     private final TablesService service;
     private final ObservableList<List<Object>> rows = FXCollections.observableArrayList();
     private final BooleanProperty busy = new SimpleBooleanProperty();
+    private final ObjectProperty<TableDto> current = new SimpleObjectProperty<>();
 
     public DatabaseTablesController(AppContext context, Navigator navigator) {
         this.service = new TablesService(context.api().reports());
@@ -46,12 +56,29 @@ public class DatabaseTablesController {
         dataTable.setPlaceholder(new Label("В таблице нет записей"));
         FormBindings.showWhen(busyIndicator, busy);
         tableCombo.disableProperty().bind(busy);
+        csvButton.disableProperty().bind(busy.or(current.isNull()));
+        xlsxButton.disableProperty().bind(busy.or(current.isNull()));
         tableCombo.valueProperty().addListener((observable, previous, current) -> loadSelected());
 
         Background.run(busy, service::names, names -> {
             tableCombo.getItems().setAll(names);
             tableCombo.getSelectionModel().selectFirst();
         }, Dialogs::showError);
+    }
+
+    @FXML
+    private void onExportCsv() {
+        export(ExportFormat.CSV);
+    }
+
+    @FXML
+    private void onExportXlsx() {
+        export(ExportFormat.XLSX);
+    }
+
+    private void export(ExportFormat format) {
+        TableDto table = current.get();
+        ExportActions.export(csvButton.getScene().getWindow(), format, table.name(), () -> table, busy);
     }
 
     private void loadSelected() {
@@ -63,6 +90,7 @@ public class DatabaseTablesController {
     }
 
     private void show(TableDto table) {
+        current.set(table);
         dataTable.getColumns().clear();
         for (int index = 0; index < table.columns().size(); index++) {
             int columnIndex = index;

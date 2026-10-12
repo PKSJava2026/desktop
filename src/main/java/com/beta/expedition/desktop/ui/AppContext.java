@@ -5,6 +5,7 @@ import com.beta.expedition.desktop.service.AuthService;
 import com.beta.expedition.desktop.service.NotificationService;
 import com.beta.expedition.desktop.service.OrderService;
 import com.beta.expedition.desktop.service.RatingService;
+import com.beta.expedition.desktop.service.StatisticsService;
 import com.beta.expedition.desktop.session.Session;
 
 public final class AppContext {
@@ -15,6 +16,7 @@ public final class AppContext {
     private final OrderService orderService;
     private final NotificationService notificationService;
     private final RatingService ratingService;
+    private final StatisticsService statisticsService;
 
     public AppContext(Api api) {
         this.api = api;
@@ -23,6 +25,7 @@ public final class AppContext {
         this.orderService = new OrderService(api.orders(), session);
         this.notificationService = new NotificationService(api.notifications());
         this.ratingService = new RatingService(api.ratings(), session);
+        this.statisticsService = new StatisticsService(api.orders(), api.reports());
     }
 
     public Api api() {
@@ -47,5 +50,9 @@ public final class AppContext {
 
     public RatingService ratingService() {
         return ratingService;
+    }
+
+    public StatisticsService statisticsService() {
+        return statisticsService;
     }
 }

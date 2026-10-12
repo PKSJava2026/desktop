@@ -280,3 +280,12 @@
     -fx-background-radius: 6;
     -fx-border-radius: 6;
 }
+
+.plain-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.plain-scroll > .viewport {
+    -fx-background-color: transparent;
+}
