@@ -254,6 +254,22 @@
     -fx-text-fill: #1c2430;
 }
 
+.unread-row .table-cell {
+    -fx-font-weight: bold;
+    -fx-text-fill: #1c2430;
+}
+
+.rating-average {
+    -fx-text-fill: #1f4e79;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.rating-stars {
+    -fx-text-fill: #e0a200;
+    -fx-font-size: 22px;
+}
+
 .form-box {
     -fx-padding: 8 4 4 4;
 }
