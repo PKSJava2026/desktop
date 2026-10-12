@@ -23,3 +23,9 @@
 .hint {
     -fx-text-fill: #5f6b7a;
 }
+
+.app-dialog {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-min-width: 360;
+}
