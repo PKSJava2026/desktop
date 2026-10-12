@@ -1,8 +1,10 @@
 package com.beta.expedition.desktop.controller;
 
 import com.beta.expedition.desktop.model.OrderDto;
+import com.beta.expedition.desktop.model.OrderSort;
 import com.beta.expedition.desktop.model.OrderStatus;
 import com.beta.expedition.desktop.model.request.OrderRequest;
+import com.beta.expedition.desktop.service.OrderFilter;
 import com.beta.expedition.desktop.service.OrderService;
 import com.beta.expedition.desktop.ui.AppContext;
 import com.beta.expedition.desktop.ui.Background;
@@ -11,20 +13,29 @@ import com.beta.expedition.desktop.ui.FormBindings;
 import com.beta.expedition.desktop.ui.FormDialog;
 import com.beta.expedition.desktop.ui.Formats;
 import com.beta.expedition.desktop.ui.Navigator;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 
@@ -78,6 +89,22 @@ public class OrdersController {
     @FXML
     private TableColumn<OrderDto, OffsetDateTime> createdColumn;
     @FXML
+    private TextField searchField;
+    @FXML
+    private ComboBox<OrderStatus> statusFilterBox;
+    @FXML
+    private DatePicker fromPicker;
+    @FXML
+    private DatePicker toPicker;
+    @FXML
+    private ComboBox<OrderSort> sortBox;
+    @FXML
+    private ToggleButton directionButton;
+    @FXML
+    private Label filterErrorLabel;
+    @FXML
+    private Label countLabel;
+    @FXML
     private Label detailsHint;
     @FXML
     private GridPane detailsGrid;
@@ -108,6 +135,9 @@ public class OrdersController {
     private final Navigator navigator;
     private final BooleanProperty busy = new SimpleBooleanProperty();
     private final ObservableList<OrderDto> orders = FXCollections.observableArrayList();
+    private final FilteredList<OrderDto> filtered = new FilteredList<>(orders, order -> true);
+    private final SortedList<OrderDto> sorted = new SortedList<>(filtered);
+    private boolean syncingSort;
 
     public OrdersController(AppContext context, Navigator navigator) {
         this.orderService = context.orderService();
@@ -130,7 +160,10 @@ public class OrdersController {
 
         FormBindings.showWhen(busyIndicator, busy);
         configureColumns();
-        ordersTable.setItems(orders);
+        sorted.comparatorProperty().bind(ordersTable.comparatorProperty());
+        ordersTable.setItems(sorted);
+        configureFilters();
+        configureSorting();
         ordersTable.getSelectionModel().selectedItemProperty()
                 .addListener((observable, previous, current) -> showSelection(current));
         ordersTable.setOnMouseClicked(event -> {
@@ -220,6 +253,27 @@ public class OrdersController {
     }
 
     @FXML
+    private void onClearFrom() {
+        fromPicker.setValue(null);
+    }
+
+    @FXML
+    private void onClearTo() {
+        toPicker.setValue(null);
+    }
+
+    @FXML
+    private void onResetFilters() {
+        searchField.clear();
+        statusFilterBox.setValue(null);
+        fromPicker.setValue(null);
+        toPicker.setValue(null);
+        sortBox.setValue(null);
+        directionButton.setSelected(false);
+        applyDefaultSort();
+    }
+
+    @FXML
     private void onActiveOnlyChanged() {
         reload(null);
     }
@@ -288,8 +342,130 @@ public class OrdersController {
         formatted(volumeColumn, Formats::decimal);
         formatted(desiredDateColumn, Formats::date);
         formatted(createdColumn, Formats::dateTime);
+        weightColumn.setComparator((first, second) -> {
+            boolean blankLast = weightColumn.getSortType() == TableColumn.SortType.ASCENDING;
+            if (first == null || second == null) {
+                if (first == second) {
+                    return 0;
+                }
+                return (first == null) == blankLast ? 1 : -1;
+            }
+            return first.compareTo(second);
+        });
+        applyDefaultSort();
+    }
+
+    private void configureFilters() {
+        statusFilterBox.getItems().add(null);
+        statusFilterBox.getItems().addAll(OrderStatus.values());
+        statusFilterBox.setCellFactory(ignored -> statusCell(false));
+        statusFilterBox.setButtonCell(statusCell(true));
+        FormBindings.showWhenNotEmpty(filterErrorLabel);
+        searchField.textProperty().addListener((observable, previous, current) -> applyFilter());
+        statusFilterBox.valueProperty().addListener((observable, previous, current) -> applyFilter());
+        fromPicker.valueProperty().addListener((observable, previous, current) -> applyFilter());
+        toPicker.valueProperty().addListener((observable, previous, current) -> applyFilter());
+        fromPicker.setEditable(false);
+        toPicker.setEditable(false);
+        countLabel.textProperty().bind(Bindings.createStringBinding(
+                () -> "Показано " + sorted.size() + " из " + orders.size(), sorted, orders));
+    }
+
+    private ListCell<OrderStatus> statusCell(boolean buttonCell) {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(OrderStatus item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty && !buttonCell) {
+                    setText(null);
+                } else {
+                    setText(item == null ? "Все статусы" : item.toString());
+                }
+            }
+        };
+    }
+
+    private void applyFilter() {
+        OrderFilter filter = new OrderFilter(searchField.getText(), statusFilterBox.getValue(),
+                fromPicker.getValue(), toPicker.getValue());
+        String problem = filter.problem();
+        filterErrorLabel.setText(problem == null ? "" : problem);
+        filtered.setPredicate(problem == null ? filter::matches : order -> false);
+    }
+
+    private void configureSorting() {
+        sortBox.getItems().addAll(OrderSort.values());
+        sortBox.valueProperty().addListener((observable, previous, current) -> {
+            if (!syncingSort) {
+                applySort();
+            }
+        });
+        directionButton.selectedProperty().addListener((observable, previous, current) -> {
+            directionButton.setText(current ? "По убыванию" : "По возрастанию");
+            if (!syncingSort) {
+                applySort();
+            }
+        });
+        ordersTable.getSortOrder().addListener((ListChangeListener<TableColumn<OrderDto, ?>>) change -> {
+            if (syncingSort) {
+                return;
+            }
+            syncingSort = true;
+            try {
+                TableColumn<OrderDto, ?> column = ordersTable.getSortOrder().isEmpty()
+                        ? null : ordersTable.getSortOrder().get(0);
+                sortBox.setValue(sortOf(column));
+                if (column != null) {
+                    directionButton.setSelected(column.getSortType() == TableColumn.SortType.DESCENDING);
+                }
+            } finally {
+                syncingSort = false;
+            }
+        });
+    }
+
+    private void applySort() {
+        OrderSort sort = sortBox.getValue();
+        if (sort == null) {
+            applyDefaultSort();
+            return;
+        }
+        TableColumn<OrderDto, ?> column = switch (sort) {
+            case DATE -> createdColumn;
+            case STATUS -> statusColumn;
+            case WEIGHT -> weightColumn;
+        };
+        column.setSortType(directionButton.isSelected()
+                ? TableColumn.SortType.DESCENDING : TableColumn.SortType.ASCENDING);
+        syncingSort = true;
+        try {
+            ordersTable.getSortOrder().setAll(column);
+        } finally {
+            syncingSort = false;
+        }
+    }
+
+    private void applyDefaultSort() {
         idColumn.setSortType(TableColumn.SortType.DESCENDING);
-        ordersTable.getSortOrder().add(idColumn);
+        syncingSort = true;
+        try {
+            ordersTable.getSortOrder().setAll(idColumn);
+        } finally {
+            syncingSort = false;
+        }
+    }
+
+    private OrderSort sortOf(TableColumn<OrderDto, ?> column) {
+        if (column == createdColumn) {
+            return OrderSort.DATE;
+        }
+        if (column == statusColumn) {
+            return OrderSort.STATUS;
+        }
+        if (column == weightColumn) {
+            return OrderSort.WEIGHT;
+        }
+        return null;
     }
 
     private <T> void formatted(TableColumn<OrderDto, T> column, Function<T, String> formatter) {

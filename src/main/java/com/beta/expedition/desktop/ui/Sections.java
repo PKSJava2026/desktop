@@ -12,6 +12,7 @@ public final class Sections {
     public static final String NOTIFICATIONS_VIEW = VIEW_DIR + "notifications.fxml";
 
     private static final List<Section> ALL = List.of(
+            new Section("Заявки", VIEW_DIR + "orders.fxml", EnumSet.of(Role.CUSTOMER, Role.FORWARDER, Role.ADMIN)),
             new Section("Профиль", VIEW_DIR + "profile.fxml", EnumSet.allOf(Role.class)),
             new Section("Уведомления", NOTIFICATIONS_VIEW, EnumSet.allOf(Role.class)),
             new Section("Оценка заявок", VIEW_DIR + "rate-orders.fxml",
