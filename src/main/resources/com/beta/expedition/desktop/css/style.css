@@ -4,10 +4,14 @@
     -fx-font-size: 14px;
 }
 
+.auth-pane {
+    -fx-background-color: #f4f6f8;
+    -fx-padding: 24;
+}
+
 .header {
     -fx-background-color: #1f4e79;
-    -fx-padding: 14 20 14 20;
-    -fx-alignment: center-left;
+    -fx-padding: 12 20 12 20;
 }
 
 .title {
@@ -16,12 +20,142 @@
     -fx-font-weight: bold;
 }
 
+.header-user {
+    -fx-text-fill: #d7e4f2;
+}
+
 .content {
     -fx-padding: 20;
 }
 
-.hint {
-    -fx-text-fill: #5f6b7a;
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #dde3ea;
+    -fx-border-radius: 8;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(31, 78, 121, 0.10), 12, 0, 0, 2);
+}
+
+.page-title {
+    -fx-text-fill: #1f4e79;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 6 0;
+}
+
+.field-label {
+    -fx-text-fill: #3b4654;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.value-label {
+    -fx-text-fill: #1c2430;
+    -fx-font-size: 15px;
+}
+
+.text-field, .password-field, .combo-box {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #c4ccd6;
+    -fx-background-color: white;
+    -fx-padding: 7 10 7 10;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #1f4e79;
+}
+
+.combo-box {
+    -fx-padding: 2 4 2 4;
+}
+
+.button-primary {
+    -fx-background-color: #1f4e79;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 18 8 18;
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: #173d5f;
+}
+
+.button-primary:disabled {
+    -fx-opacity: 0.6;
+}
+
+.button-secondary {
+    -fx-background-color: white;
+    -fx-text-fill: #1f4e79;
+    -fx-border-color: #1f4e79;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 7 16 7 16;
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #e8f0f8;
+}
+
+.button-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1f4e79;
+    -fx-padding: 4 0 4 0;
+    -fx-cursor: hand;
+}
+
+.button-link:hover {
+    -fx-underline: true;
+}
+
+.button-header {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: #8fb0d0;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 5 14 5 14;
+    -fx-cursor: hand;
+}
+
+.button-header:hover {
+    -fx-background-color: #2b6296;
+}
+
+.error-text {
+    -fx-text-fill: #b3261e;
+    -fx-font-size: 13px;
+}
+
+.nav {
+    -fx-background-color: white;
+    -fx-border-color: #dde3ea;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 14 10 14 10;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-text-fill: #3b4654;
+    -fx-alignment: center-left;
+    -fx-padding: 9 12 9 12;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #eef2f6;
+}
+
+.nav-button:selected {
+    -fx-background-color: #e3edf7;
+    -fx-text-fill: #1f4e79;
+    -fx-font-weight: bold;
 }
 
 .app-dialog {

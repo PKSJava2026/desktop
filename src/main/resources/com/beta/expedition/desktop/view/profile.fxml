@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.beta.expedition.desktop.controller.ProfileController" alignment="TOP_LEFT">
+    <VBox styleClass="card" spacing="16" maxWidth="520" maxHeight="-Infinity" StackPane.alignment="TOP_LEFT">
+        <Label text="Профиль" styleClass="page-title"/>
+        <GridPane hgap="16" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <Label text="Никнейм" styleClass="field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="nicknameLabel" styleClass="value-label" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <Label text="Email" styleClass="field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="emailLabel" styleClass="value-label" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="Роль" styleClass="field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="roleLabel" styleClass="value-label" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="Дата регистрации" styleClass="field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="createdLabel" styleClass="value-label" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        </GridPane>
+    </VBox>
+</StackPane>
