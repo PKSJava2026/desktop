@@ -34,6 +34,15 @@
 
 Заказчика и перевозчика можно также зарегистрировать на экране регистрации.
 
+## Подключение к серверу
+
+Адрес и режим задаются в `src/main/resources/app.properties`:
+
+```properties
+api.mode=http
+api.baseUrl=http://localhost:8080
+```
+
 ## Структура проекта
 
 ```text

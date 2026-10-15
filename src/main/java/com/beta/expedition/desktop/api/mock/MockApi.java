@@ -9,6 +9,8 @@ import com.beta.expedition.desktop.api.OrderApi;
 import com.beta.expedition.desktop.api.RatingApi;
 import com.beta.expedition.desktop.api.ReportApi;
 import com.beta.expedition.desktop.api.UserApi;
+import com.beta.expedition.desktop.model.UserDto;
+import java.time.OffsetDateTime;
 
 public final class MockApi implements Api {
 
@@ -32,6 +34,29 @@ public final class MockApi implements Api {
     private final ReportApi reports = locked(ReportApi.class, new MockReportApi(STORE, SESSION));
 
     public MockApi() {
+    }
+
+    public UserDto adopt(UserDto remote) {
+        synchronized (STORE) {
+            String nickname = remote.nickname();
+            UserDto local = STORE.findByNickname(nickname);
+            if (local != null && local.role() != remote.role()) {
+                nickname = nickname + "#" + remote.id();
+                local = STORE.findByNickname(nickname);
+            }
+            if (local == null) {
+                OffsetDateTime createdAt = remote.createdAt() == null ? OffsetDateTime.now() : remote.createdAt();
+                local = STORE.addUser(nickname, remote.email(), "", remote.role(), createdAt);
+            }
+            SESSION.start(local);
+            return local;
+        }
+    }
+
+    public void release() {
+        synchronized (STORE) {
+            SESSION.end();
+        }
     }
 
     private static <T> T locked(Class<T> type, T target) {

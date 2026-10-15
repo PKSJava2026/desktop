@@ -18,7 +18,7 @@ public class AuthService {
     private static final Pattern NICKNAME = Pattern.compile("[\\p{L}\\p{N}_.-]{3,30}");
     private static final Pattern EMAIL = Pattern.compile("[^@\\s]+@[^@\\s]+\\.[^@\\s]+");
     private static final int MAX_EMAIL_LENGTH = 150;
-    private static final int MIN_PASSWORD_LENGTH = 6;
+    private static final int MIN_PASSWORD_LENGTH = 8;
     private static final int MAX_PASSWORD_BYTES = 72;
     private static final Set<Role> SELF_REGISTRATION_ROLES = EnumSet.of(Role.CUSTOMER, Role.CARRIER);
 
