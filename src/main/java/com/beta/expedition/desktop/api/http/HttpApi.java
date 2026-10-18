@@ -19,11 +19,16 @@ import com.beta.expedition.desktop.model.request.RegisterRequest;
 public final class HttpApi implements Api {
 
     private final HttpAuthApi remoteAuth;
+    private final UserApi users;
+    private final OrderApi orders;
     private final MockApi local = new MockApi();
     private final AuthApi auth;
 
     public HttpApi() {
-        this.remoteAuth = new HttpAuthApi(new HttpTransport(AppConfig.load().apiBaseUrl()));
+        HttpTransport transport = new HttpTransport(AppConfig.load().apiBaseUrl());
+        this.remoteAuth = new HttpAuthApi(transport);
+        this.users = new HttpUserApi(transport);
+        this.orders = new HttpOrderApi(transport);
         this.auth = new AuthApi() {
             @Override
             public UserDto register(RegisterRequest request) {
@@ -33,10 +38,8 @@ public final class HttpApi implements Api {
             @Override
             public AuthResult login(LoginRequest request) {
                 AuthResult remote = remoteAuth.login(request);
-                UserDto adopted = local.adopt(remote.user());
-                UserDto user = new UserDto(adopted.id(), remote.user().nickname(), remote.user().email(),
-                        remote.user().role(), remote.user().active(), remote.user().createdAt());
-                return new AuthResult(remote.token(), user);
+                local.adopt(remote.user());
+                return remote;
             }
 
             @Override
@@ -54,12 +57,12 @@ public final class HttpApi implements Api {
 
     @Override
     public UserApi users() {
-        return local.users();
+        return users;
     }
 
     @Override
     public OrderApi orders() {
-        return local.orders();
+        return orders;
     }
 
     @Override

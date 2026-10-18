@@ -50,8 +50,20 @@ final class HttpTransport {
         return send("GET", path, null, mapper.getTypeFactory().constructType(type));
     }
 
+    <T> T get(String path, Query query, TypeReference<T> type) {
+        return get(path + query, type);
+    }
+
     <T> T post(String path, Object body, Class<T> type) {
         return send("POST", path, body, mapper.constructType(type));
+    }
+
+    <T> T put(String path, Object body, Class<T> type) {
+        return send("PUT", path, body, mapper.constructType(type));
+    }
+
+    void delete(String path) {
+        send("DELETE", path, null, mapper.constructType(Void.class));
     }
 
     private <T> T send(String method, String path, Object body, JavaType type) {
