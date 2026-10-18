@@ -1,6 +1,7 @@
 package com.beta.expedition.desktop.api.http;
 
 import com.beta.expedition.desktop.api.ApiException;
+import com.beta.expedition.desktop.model.Role;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -29,17 +30,24 @@ final class HttpTransport {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     private final String baseUrl;
     private volatile String token;
+    private volatile Role role;
 
     HttpTransport(String baseUrl) {
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
     }
 
-    void setToken(String token) {
+    void setSession(String token, Role role) {
         this.token = token;
+        this.role = role;
     }
 
-    void clearToken() {
+    void clearSession() {
         this.token = null;
+        this.role = null;
+    }
+
+    Role role() {
+        return role;
     }
 
     <T> T get(String path, Class<T> type) {
@@ -50,8 +58,38 @@ final class HttpTransport {
         return send("GET", path, null, mapper.getTypeFactory().constructType(type));
     }
 
+    <T> T get(String path, Query query, TypeReference<T> type) {
+        return get(path + query, type);
+    }
+
     <T> T post(String path, Object body, Class<T> type) {
         return send("POST", path, body, mapper.constructType(type));
+    }
+
+    <T> T post(String path, Object body, TypeReference<T> type) {
+        return send("POST", path, body, mapper.getTypeFactory().constructType(type));
+    }
+
+    byte[] getBytes(String path) {
+        HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(baseUrl + path))
+                .timeout(REQUEST_TIMEOUT)
+                .header("Accept", "*/*");
+        if (token != null) {
+            builder.header("Authorization", "Bearer " + token);
+        }
+        HttpResponse<byte[]> response = execute(builder.build(), HttpResponse.BodyHandlers.ofByteArray());
+        if (response.statusCode() / 100 != 2) {
+            throw HttpErrors.from(response.statusCode(), new String(response.body(), StandardCharsets.UTF_8), mapper);
+        }
+        return response.body();
+    }
+
+    <T> T put(String path, Object body, Class<T> type) {
+        return send("PUT", path, body, mapper.constructType(type));
+    }
+
+    void delete(String path) {
+        send("DELETE", path, null, mapper.constructType(Void.class));
     }
 
     private <T> T send(String method, String path, Object body, JavaType type) {
@@ -67,7 +105,8 @@ final class HttpTransport {
             builder.header("Content-Type", "application/json");
             builder.method(method, HttpRequest.BodyPublishers.ofString(toJson(body), StandardCharsets.UTF_8));
         }
-        HttpResponse<String> response = execute(builder.build());
+        HttpResponse<String> response = execute(builder.build(),
+                HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
         if (response.statusCode() / 100 != 2) {
             throw HttpErrors.from(response.statusCode(), response.body(), mapper);
         }
@@ -82,9 +121,9 @@ final class HttpTransport {
         }
     }
 
-    private HttpResponse<String> execute(HttpRequest request) {
+    private <B> HttpResponse<B> execute(HttpRequest request, HttpResponse.BodyHandler<B> handler) {
         try {
-            return client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+            return client.send(request, handler);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new ApiException("Запрос к серверу был прерван", e);

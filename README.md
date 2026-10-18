@@ -36,10 +36,9 @@
 
 ## Подключение к серверу
 
-Адрес и режим задаются в `src/main/resources/app.properties`:
+Адрес сервера задаётся в `src/main/resources/app.properties`:
 
 ```properties
-api.mode=http
 api.baseUrl=http://localhost:8080
 ```
 

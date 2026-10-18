@@ -9,42 +9,29 @@ import com.beta.expedition.desktop.api.OrderApi;
 import com.beta.expedition.desktop.api.RatingApi;
 import com.beta.expedition.desktop.api.ReportApi;
 import com.beta.expedition.desktop.api.UserApi;
-import com.beta.expedition.desktop.api.mock.MockApi;
 import com.beta.expedition.desktop.config.AppConfig;
-import com.beta.expedition.desktop.model.AuthResult;
-import com.beta.expedition.desktop.model.UserDto;
-import com.beta.expedition.desktop.model.request.LoginRequest;
-import com.beta.expedition.desktop.model.request.RegisterRequest;
 
 public final class HttpApi implements Api {
 
-    private final HttpAuthApi remoteAuth;
-    private final MockApi local = new MockApi();
     private final AuthApi auth;
+    private final UserApi users;
+    private final OrderApi orders;
+    private final ContractApi contracts;
+    private final CooperationApi cooperation;
+    private final NotificationApi notifications;
+    private final RatingApi ratings;
+    private final ReportApi reports;
 
     public HttpApi() {
-        this.remoteAuth = new HttpAuthApi(new HttpTransport(AppConfig.load().apiBaseUrl()));
-        this.auth = new AuthApi() {
-            @Override
-            public UserDto register(RegisterRequest request) {
-                return remoteAuth.register(request);
-            }
-
-            @Override
-            public AuthResult login(LoginRequest request) {
-                AuthResult remote = remoteAuth.login(request);
-                UserDto adopted = local.adopt(remote.user());
-                UserDto user = new UserDto(adopted.id(), remote.user().nickname(), remote.user().email(),
-                        remote.user().role(), remote.user().active(), remote.user().createdAt());
-                return new AuthResult(remote.token(), user);
-            }
-
-            @Override
-            public void logout() {
-                remoteAuth.logout();
-                local.release();
-            }
-        };
+        HttpTransport transport = new HttpTransport(AppConfig.load().apiBaseUrl());
+        this.auth = new HttpAuthApi(transport);
+        this.users = new HttpUserApi(transport);
+        this.orders = new HttpOrderApi(transport);
+        this.contracts = new HttpContractApi(transport);
+        this.cooperation = new HttpCooperationApi(transport);
+        this.notifications = new HttpNotificationApi(transport);
+        this.ratings = new HttpRatingApi(transport);
+        this.reports = new HttpReportApi(transport);
     }
 
     @Override
@@ -54,36 +41,36 @@ public final class HttpApi implements Api {
 
     @Override
     public UserApi users() {
-        return local.users();
+        return users;
     }
 
     @Override
     public OrderApi orders() {
-        return local.orders();
+        return orders;
     }
 
     @Override
     public ContractApi contracts() {
-        return local.contracts();
+        return contracts;
     }
 
     @Override
     public CooperationApi cooperation() {
-        return local.cooperation();
+        return cooperation;
     }
 
     @Override
     public NotificationApi notifications() {
-        return local.notifications();
+        return notifications;
     }
 
     @Override
     public RatingApi ratings() {
-        return local.ratings();
+        return ratings;
     }
 
     @Override
     public ReportApi reports() {
-        return local.reports();
+        return reports;
     }
 }
