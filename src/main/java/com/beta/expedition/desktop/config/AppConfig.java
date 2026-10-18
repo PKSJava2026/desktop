@@ -1,7 +1,6 @@
 package com.beta.expedition.desktop.config;
 
 import com.beta.expedition.desktop.api.ApiException;
-import com.beta.expedition.desktop.api.ApiMode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,7 +10,6 @@ import java.util.Properties;
 public final class AppConfig {
 
     private static final String RESOURCE = "/app.properties";
-    private static final String API_MODE = "api.mode";
     private static final String API_BASE_URL = "api.baseUrl";
 
     private final Properties properties;
@@ -31,15 +29,6 @@ public final class AppConfig {
             throw new ApiException("Не удалось прочитать файл настроек", e);
         }
         return new AppConfig(properties);
-    }
-
-    public ApiMode apiMode() {
-        String value = properties.getProperty(API_MODE, "mock").trim().toUpperCase();
-        try {
-            return ApiMode.valueOf(value);
-        } catch (IllegalArgumentException e) {
-            throw new ApiException("Неизвестный режим API в настройках: " + value, e);
-        }
     }
 
     public String apiBaseUrl() {

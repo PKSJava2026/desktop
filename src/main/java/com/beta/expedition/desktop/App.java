@@ -2,7 +2,7 @@ package com.beta.expedition.desktop;
 
 import com.beta.expedition.desktop.api.Api;
 import com.beta.expedition.desktop.api.ApiException;
-import com.beta.expedition.desktop.api.ApiFactory;
+import com.beta.expedition.desktop.api.http.HttpApi;
 import com.beta.expedition.desktop.ui.AppContext;
 import com.beta.expedition.desktop.ui.Navigator;
 import javafx.application.Application;
@@ -15,7 +15,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Api api = ApiFactory.create();
+            Api api = new HttpApi();
             Navigator navigator = new Navigator(stage, new AppContext(api));
             navigator.showLogin();
             stage.show();
