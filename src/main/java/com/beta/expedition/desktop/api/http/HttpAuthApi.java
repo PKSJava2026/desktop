@@ -22,12 +22,12 @@ final class HttpAuthApi implements AuthApi {
     @Override
     public AuthResult login(LoginRequest request) {
         AuthResult result = transport.post("/api/auth/login", request, AuthResult.class);
-        transport.setToken(result.token());
+        transport.setSession(result.token(), result.user().role());
         return result;
     }
 
     @Override
     public void logout() {
-        transport.clearToken();
+        transport.clearSession();
     }
 }

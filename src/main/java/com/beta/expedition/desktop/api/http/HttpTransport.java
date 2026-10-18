@@ -1,6 +1,7 @@
 package com.beta.expedition.desktop.api.http;
 
 import com.beta.expedition.desktop.api.ApiException;
+import com.beta.expedition.desktop.model.Role;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -29,17 +30,24 @@ final class HttpTransport {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     private final String baseUrl;
     private volatile String token;
+    private volatile Role role;
 
     HttpTransport(String baseUrl) {
         this.baseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
     }
 
-    void setToken(String token) {
+    void setSession(String token, Role role) {
         this.token = token;
+        this.role = role;
     }
 
-    void clearToken() {
+    void clearSession() {
         this.token = null;
+        this.role = null;
+    }
+
+    Role role() {
+        return role;
     }
 
     <T> T get(String path, Class<T> type) {

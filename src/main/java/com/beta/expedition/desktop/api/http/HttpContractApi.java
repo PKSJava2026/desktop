@@ -4,6 +4,7 @@ import com.beta.expedition.desktop.api.ContractApi;
 import com.beta.expedition.desktop.model.ChangeRequestDto;
 import com.beta.expedition.desktop.model.ContractDto;
 import com.beta.expedition.desktop.model.ContractKind;
+import com.beta.expedition.desktop.model.Role;
 import com.beta.expedition.desktop.model.request.AmendmentRequest;
 import com.beta.expedition.desktop.model.request.ContractQuery;
 import com.beta.expedition.desktop.model.request.ContractRequest;
@@ -48,7 +49,11 @@ final class HttpContractApi implements ContractApi {
 
     @Override
     public List<ContractDto> mine(ContractKind kind) {
-        return transport.get(base(kind) + "/my", CONTRACTS);
+        Role role = transport.role();
+        if (role == Role.CUSTOMER || role == Role.CARRIER) {
+            return transport.get(base(kind) + "/my", CONTRACTS);
+        }
+        return role == Role.FORWARDER ? search(kind, ContractQuery.all()) : List.of();
     }
 
     @Override
