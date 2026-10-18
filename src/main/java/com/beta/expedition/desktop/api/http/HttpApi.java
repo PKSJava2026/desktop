@@ -24,6 +24,7 @@ public final class HttpApi implements Api {
     private final ContractApi contracts;
     private final CooperationApi cooperation;
     private final NotificationApi notifications;
+    private final RatingApi ratings;
     private final MockApi local = new MockApi();
     private final AuthApi auth;
 
@@ -35,6 +36,7 @@ public final class HttpApi implements Api {
         this.contracts = new HttpContractApi(transport);
         this.cooperation = new HttpCooperationApi(transport);
         this.notifications = new HttpNotificationApi(transport);
+        this.ratings = new HttpRatingApi(transport);
         this.auth = new AuthApi() {
             @Override
             public UserDto register(RegisterRequest request) {
@@ -88,7 +90,7 @@ public final class HttpApi implements Api {
 
     @Override
     public RatingApi ratings() {
-        return local.ratings();
+        return ratings;
     }
 
     @Override
