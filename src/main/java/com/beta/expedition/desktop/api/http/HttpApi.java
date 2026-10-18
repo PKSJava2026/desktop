@@ -21,6 +21,7 @@ public final class HttpApi implements Api {
     private final HttpAuthApi remoteAuth;
     private final UserApi users;
     private final OrderApi orders;
+    private final ContractApi contracts;
     private final MockApi local = new MockApi();
     private final AuthApi auth;
 
@@ -29,6 +30,7 @@ public final class HttpApi implements Api {
         this.remoteAuth = new HttpAuthApi(transport);
         this.users = new HttpUserApi(transport);
         this.orders = new HttpOrderApi(transport);
+        this.contracts = new HttpContractApi(transport);
         this.auth = new AuthApi() {
             @Override
             public UserDto register(RegisterRequest request) {
@@ -67,7 +69,7 @@ public final class HttpApi implements Api {
 
     @Override
     public ContractApi contracts() {
-        return local.contracts();
+        return contracts;
     }
 
     @Override
