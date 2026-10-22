@@ -9,11 +9,6 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.beta.expedition.desktop.controller.MainController" styleClass="root-pane">
-    <top>
-        <HBox styleClass="header" spacing="16" alignment="CENTER_LEFT">
-            <Label text="Экспедиторская компания" styleClass="title"/>
-        </HBox>
-    </top>
     <left>
         <VBox styleClass="nav" spacing="16" prefWidth="200">
             <VBox fx:id="navBox" spacing="8" VBox.vgrow="ALWAYS"/>
