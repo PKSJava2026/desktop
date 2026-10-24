@@ -53,7 +53,7 @@ final class HttpContractApi implements ContractApi {
         if (role == Role.CUSTOMER || role == Role.CARRIER) {
             return transport.get(base(kind) + "/my", CONTRACTS);
         }
-        return role == Role.FORWARDER ? search(kind, ContractQuery.all()) : List.of();
+        return role == Role.FORWARDER || role == Role.ADMIN ? search(kind, ContractQuery.all()) : List.of();
     }
 
     @Override
