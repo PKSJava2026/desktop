@@ -4,6 +4,7 @@ import com.beta.expedition.desktop.model.ChangeRequestDto;
 import com.beta.expedition.desktop.model.ChangeRequestType;
 import com.beta.expedition.desktop.model.ContractDto;
 import com.beta.expedition.desktop.model.ContractKind;
+import com.beta.expedition.desktop.model.ContractStatus;
 import com.beta.expedition.desktop.model.OrderDto;
 import com.beta.expedition.desktop.model.OrderStatus;
 import com.beta.expedition.desktop.model.UserDto;
@@ -136,6 +137,9 @@ public class ContractListController {
         configureRequestColumns();
         sortedContracts.comparatorProperty().bind(contractsTable.comparatorProperty());
         contractsTable.setItems(sortedContracts);
+        FormBindings.dimRowsWhen(contractsTable, contract -> contract.status() == ContractStatus.TERMINATED
+                || contract.status() == ContractStatus.COMPLETED || contract.status() == ContractStatus.REJECTED
+                || contract.orderStatus() == OrderStatus.DELIVERED);
         requestsTable.setItems(requests);
         contractsTable.getSelectionModel().selectedItemProperty()
                 .addListener((observable, previous, current) -> refreshState());

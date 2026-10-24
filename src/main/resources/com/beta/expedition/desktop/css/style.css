@@ -372,6 +372,10 @@
     -fx-font-weight: bold;
 }
 
+.table-view .table-row-cell.archived-row:not(:selected) .table-cell {
+    -fx-text-fill: -muted;
+}
+
 .table-view .placeholder .label {
     -fx-text-fill: -muted;
 }

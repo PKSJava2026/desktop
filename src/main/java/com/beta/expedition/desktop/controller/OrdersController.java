@@ -168,6 +168,8 @@ public class OrdersController {
         configureColumns();
         sorted.comparatorProperty().bind(ordersTable.comparatorProperty());
         ordersTable.setItems(sorted);
+        FormBindings.dimRowsWhen(ordersTable, order ->
+                order.status() == OrderStatus.DELIVERED || order.status() == OrderStatus.CANCELLED);
         configureFilters();
         configureSorting();
         ordersTable.getSelectionModel().selectedItemProperty()
