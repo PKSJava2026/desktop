@@ -28,7 +28,7 @@ public final class Navigator {
         this.scene = new Scene(new StackPane(), 1200, 720);
         scene.getStylesheets().add(
                 Objects.requireNonNull(Navigator.class.getResource(STYLESHEET)).toExternalForm());
-        stage.setTitle("Экспедиторская компания");
+        stage.setTitle("ПРАЙМ ЛАДЖИСТИКС");
         stage.setMinWidth(720);
         stage.setMinHeight(480);
         stage.setScene(scene);
