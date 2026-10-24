@@ -5,6 +5,7 @@ import com.beta.expedition.desktop.model.ChangeRequestType;
 import com.beta.expedition.desktop.model.ContractDto;
 import com.beta.expedition.desktop.model.ContractKind;
 import com.beta.expedition.desktop.model.OrderDto;
+import com.beta.expedition.desktop.model.OrderStatus;
 import com.beta.expedition.desktop.model.UserDto;
 import com.beta.expedition.desktop.service.ContractService;
 import com.beta.expedition.desktop.ui.AppContext;
@@ -348,6 +349,9 @@ public class ContractListController {
         ChangeRequestDto request = selectedRequest();
         acceptButton.setDisable(!service.canRespondToContract(contract));
         rejectButton.setDisable(!service.canRespondToContract(contract));
+        boolean delivered = contract != null && contract.orderStatus() == OrderStatus.DELIVERED;
+        FormBindings.setPresent(amendButton, !delivered);
+        FormBindings.setPresent(terminateButton, !delivered);
         amendButton.setDisable(!service.canChange(contract, requests));
         terminateButton.setDisable(!service.canChange(contract, requests));
         respondAcceptButton.setDisable(!canRespond(request));

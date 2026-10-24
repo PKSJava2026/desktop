@@ -8,6 +8,7 @@ public record ContractDto(
         Long id,
         ContractKind kind,
         Long orderId,
+        OrderStatus orderStatus,
         Long counterpartyId,
         String counterpartyNickname,
         Long forwarderId,
