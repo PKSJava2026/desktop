@@ -19,7 +19,7 @@
     </FlowPane>
     <TableView minHeight="220" fx:id="ordersTable" VBox.vgrow="ALWAYS">
         <placeholder>
-            <Label text="Нет доставленных заявок, ожидающих оценки" styleClass="muted-text"/>
+            <Label text="Нет услуг, ожидающих оценки" styleClass="muted-text"/>
         </placeholder>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>

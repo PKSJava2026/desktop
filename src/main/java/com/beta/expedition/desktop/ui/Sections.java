@@ -18,7 +18,7 @@ public final class Sections {
                     EnumSet.of(Role.CARRIER, Role.FORWARDER, Role.ADMIN)),
             new Section("Профиль", VIEW_DIR + "profile.fxml", EnumSet.allOf(Role.class)),
             new Section("Уведомления", NOTIFICATIONS_VIEW, EnumSet.allOf(Role.class)),
-            new Section("Оценка заявок", VIEW_DIR + "rate-orders.fxml",
+            new Section("Оценка услуг", VIEW_DIR + "rate-orders.fxml",
                     EnumSet.of(Role.CUSTOMER, Role.FORWARDER, Role.ADMIN)),
             new Section("Мой рейтинг", VIEW_DIR + "my-rating.fxml",
                     EnumSet.of(Role.FORWARDER, Role.CARRIER, Role.ADMIN)),
