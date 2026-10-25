@@ -8,14 +8,18 @@ import com.beta.expedition.desktop.ui.Navigator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
+
+    private static final String ICON = "/com/beta/expedition/desktop/images/app-icon.png";
 
     @Override
     public void start(Stage stage) {
         try {
             Api api = new HttpApi();
+            stage.getIcons().add(new Image(App.class.getResourceAsStream(ICON)));
             Navigator navigator = new Navigator(stage, new AppContext(api));
             navigator.showLogin();
             stage.show();
