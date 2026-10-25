@@ -111,6 +111,7 @@ public class ContractService {
     public boolean canChange(ContractDto contract, List<ChangeRequestDto> openRequests) {
         return contract != null && contract.status() == ContractStatus.ACTIVE
                 && contract.orderStatus() != OrderStatus.DELIVERED
+                && contract.orderStatus() != OrderStatus.IN_TRANSIT
                 && openRequests.stream().noneMatch(request -> isFor(request, contract));
     }
 

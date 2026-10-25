@@ -353,7 +353,8 @@ public class ContractListController {
         ChangeRequestDto request = selectedRequest();
         acceptButton.setDisable(!service.canRespondToContract(contract));
         rejectButton.setDisable(!service.canRespondToContract(contract));
-        boolean delivered = contract != null && contract.orderStatus() == OrderStatus.DELIVERED;
+        boolean delivered = contract != null && (contract.orderStatus() == OrderStatus.DELIVERED
+                || contract.orderStatus() == OrderStatus.IN_TRANSIT);
         FormBindings.setPresent(amendButton, !delivered);
         FormBindings.setPresent(terminateButton, !delivered);
         amendButton.setDisable(!service.canChange(contract, requests));
