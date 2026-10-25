@@ -13,7 +13,7 @@
     <Label text="Email" styleClass="field-label"/>
     <TextField fx:id="emailField" promptText="name@example.com"/>
     <Label text="Пароль" styleClass="field-label"/>
-    <PasswordField fx:id="passwordField" promptText="Не короче 6 символов"/>
+    <PasswordField fx:id="passwordField" promptText="Не короче 8 символов"/>
     <Label text="Подтверждение пароля" styleClass="field-label"/>
     <PasswordField fx:id="confirmationField" promptText="Повторите пароль"/>
     <Label fx:id="errorLabel" styleClass="error-text" wrapText="true" minHeight="-Infinity"/>
